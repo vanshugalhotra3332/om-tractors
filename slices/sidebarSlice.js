@@ -6,6 +6,7 @@ const initialState = {
   sideBarCloseWidth: "4vw",
   selectedLink: "dashboard",
   image: "/assets/Images/background/eazy.jpg",
+  showProductsSubMenu: false,
 };
 
 export const sidebarSlice = createSlice({
@@ -24,8 +25,12 @@ export const sidebarSlice = createSlice({
     setSelectedLink: (state, action) => {
       state.selectedLink = action.payload;
     },
+    toggleProductsSubMenu: (state) => {
+      state.showProductsSubMenu = !state.showProductsSubMenu;
+    },
   },
 });
 
-export const { open, close, toggle, setSelectedLink } = sidebarSlice.actions;
+export const { open, close, toggle, setSelectedLink, toggleProductsSubMenu } =
+  sidebarSlice.actions;
 export default sidebarSlice.reducer;
