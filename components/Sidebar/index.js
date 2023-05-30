@@ -191,7 +191,9 @@ const Sidebar = () => {
                           height: 0,
                         }
                   }
-                  className="flex h-0 flex-col pl-14 text-[0.8rem] font-normal overflow-hidden"
+                  className={`flex h-0 flex-col pl-14 text-[0.8rem] font-normal overflow-hidden ${
+                    isOpen ? "" : "hidden"
+                  }`}
                 >
                   {productsSubMenuList.map(({ name, icon }) => {
                     return <SubMenu key={name} name={name} MenuIcon={icon} />;
