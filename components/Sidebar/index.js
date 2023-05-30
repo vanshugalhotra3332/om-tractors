@@ -1,18 +1,13 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 import { motion } from "framer-motion";
 
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import {
-  close,
-  open,
-  setSelectedLink,
-  toggle,
-  toggleProductsSubMenu,
-} from "@/slices/sidebarSlice";
+import { toggle, toggleProductsSubMenu } from "@/slices/sidebarSlice";
 
 // icons import
 
@@ -22,7 +17,7 @@ import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import StoreOutlinedIcon from "@mui/icons-material/StoreOutlined";
 import EventNoteOutlinedIcon from "@mui/icons-material/EventNoteOutlined";
-import MenuIcon from "@mui/icons-material/Menu";
+
 import CategoryIcon from "@mui/icons-material/Category";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
@@ -30,10 +25,20 @@ import ChecklistRtlOutlinedIcon from "@mui/icons-material/ChecklistRtlOutlined";
 import ClassOutlinedIcon from "@mui/icons-material/ClassOutlined";
 import BrandingWatermarkOutlinedIcon from "@mui/icons-material/BrandingWatermarkOutlined";
 
-const SubMenu = ({ name, MenuIcon }) => {
+const SubMenu = ({ name, MenuIcon, url }) => {
+  const router = useRouter();
+
+  const isActiveLink = (pathname) => {
+    return router.asPath === pathname;
+  };
   return (
     <li>
-      <Link href={"/"} className="sidebar-nav-link !bg-transparent capitalize">
+      <Link
+        href={url}
+        className={`sidebar-nav-link ${
+          isActiveLink(url) ? "sidebar-nav-link-active" : ""
+        }`}
+      >
         <MenuIcon className="h-6 w-6 min-w-max" />
         <p className="sidebar-nav-link-p">{name}</p>
       </Link>
@@ -42,6 +47,12 @@ const SubMenu = ({ name, MenuIcon }) => {
 };
 
 const Sidebar = () => {
+  const router = useRouter();
+
+  const isActiveLink = (pathname) => {
+    return router.asPath === pathname;
+  };
+
   // redux
   const dispatch = useDispatch();
 
@@ -55,7 +66,6 @@ const Sidebar = () => {
 
   const isOpen = useSelector((state) => state.sidebar.isOpen);
   const image = useSelector((state) => state.sidebar.image);
-  const selectedLink = useSelector((state) => state.sidebar.selectedLink);
   const showProductsSubMenu = useSelector(
     (state) => state.sidebar.showProductsSubMenu
   );
@@ -81,49 +91,42 @@ const Sidebar = () => {
 
   // Local functions
 
-  const linkClick = (event) => {
-    dispatch(setSelectedLink(event.target.id));
-  };
+  const linkClick = (event) => {};
 
   const productsSubMenuList = [
     {
       name: "add product",
       icon: AddBusinessIcon,
+      url: "/addproduct",
     },
     {
       name: "product list",
       icon: ChecklistRtlOutlinedIcon,
+      url: "/products",
     },
     {
       name: "category",
       icon: ClassOutlinedIcon,
+      url: "/category",
     },
     {
       name: "brands",
       icon: BrandingWatermarkOutlinedIcon,
+      url: "/brands",
     },
   ];
 
   return (
     <>
       {" "}
-      {/* menu icon */}
-      <div
-        className="menu-icon md:hidden inline-block relative top-3 left-3"
-        onClick={() => {
-          dispatch(toggle());
-        }}
-      >
-        <MenuIcon className="h-8 w-8" />
-      </div>
       <div
         className={`sidebar 
-  } inline-block overflow-y-auto fixed flex-1 left-0 top-0 shadow-lg z-[10000] overflow-x-hidden`}
+  } inline-block overflow-y-auto fixed flex-1 left-0 top-0 max-h-screen shadow-lg z-[10000] overflow-x-hidden scrollbar-thin`}
       >
         <motion.div
           variants={Sidebar_animation}
           animate={isOpen ? "open" : "closed"}
-          className="bg-white text-gray shadow-xl z-[10000] min-h-screen w-full"
+          className="bg-white text-gray shadow-xl z-[10000] w-full min-h-screen"
         >
           {/* Menus */}
           <div className="flex flex-col h-full">
@@ -147,7 +150,9 @@ const Sidebar = () => {
                 <li>
                   <Link
                     href={"/"}
-                    className="sidebar-nav-link"
+                    className={`sidebar-nav-link ${
+                      isActiveLink("/") ? "sidebar-nav-link-active" : ""
+                    }`}
                     onClick={linkClick}
                     id="dashboard"
                   >
@@ -158,13 +163,12 @@ const Sidebar = () => {
 
                 {/* Products */}
                 <li>
-                  <Link
+                  <div
                     className={`sidebar-nav-link`}
                     onClick={(event) => {
                       linkClick(event);
                       dispatch(toggleProductsSubMenu());
                     }}
-                    href={"/"}
                     id="products"
                   >
                     <CategoryIcon className="h-6 w-6 min-w-max" />
@@ -179,7 +183,7 @@ const Sidebar = () => {
                         event.stopPropagation();
                       }}
                     />
-                  </Link>
+                  </div>
                 </li>
                 <motion.ul
                   animate={
@@ -195,16 +199,27 @@ const Sidebar = () => {
                     isOpen ? "" : "hidden"
                   }`}
                 >
-                  {productsSubMenuList.map(({ name, icon }) => {
-                    return <SubMenu key={name} name={name} MenuIcon={icon} />;
+                  {productsSubMenuList.map(({ name, icon, url }) => {
+                    return (
+                      <SubMenu
+                        key={name}
+                        name={name}
+                        MenuIcon={icon}
+                        url={url}
+                      />
+                    );
                   })}
                 </motion.ul>
 
                 {/* inventory */}
                 <li>
                   <Link
-                    href={"/"}
-                    className="sidebar-nav-link"
+                    href={"/inventory"}
+                    className={`sidebar-nav-link ${
+                      isActiveLink("/inventory")
+                        ? "sidebar-nav-link-active"
+                        : ""
+                    }`}
                     onClick={linkClick}
                     id="inventory"
                   >
@@ -215,8 +230,10 @@ const Sidebar = () => {
                 {/* store record */}
                 <li>
                   <Link
-                    href={"/"}
-                    className="sidebar-nav-link"
+                    href={"/store"}
+                    className={`sidebar-nav-link ${
+                      isActiveLink("/store") ? "sidebar-nav-link-active" : ""
+                    }`}
                     onClick={linkClick}
                     id="store"
                   >
@@ -227,8 +244,12 @@ const Sidebar = () => {
                 {/* order book */}
                 <li>
                   <Link
-                    href={"/"}
-                    className="sidebar-nav-link"
+                    href={"/orderbook"}
+                    className={`sidebar-nav-link ${
+                      isActiveLink("/orderbook")
+                        ? "sidebar-nav-link-active"
+                        : ""
+                    }`}
                     onClick={linkClick}
                     id="orderbook"
                   >
@@ -239,8 +260,12 @@ const Sidebar = () => {
                 {/* record book */}
                 <li>
                   <Link
-                    href={"/"}
-                    className="sidebar-nav-link"
+                    href={"/recordbook"}
+                    className={`sidebar-nav-link ${
+                      isActiveLink("/recordbook")
+                        ? "sidebar-nav-link-active"
+                        : ""
+                    }`}
                     onClick={linkClick}
                     id="recordbook"
                   >

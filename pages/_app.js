@@ -12,6 +12,7 @@ import { Provider } from "react-redux";
 import { store } from "../store";
 
 import { setProgress, setWindowWidth } from "@/slices/globalSlice";
+import Navbar from "@/components/Navbar";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -47,6 +48,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Provider store={store}>
+        <Navbar />
         <Sidebar />
         <Component {...pageProps} />
       </Provider>
