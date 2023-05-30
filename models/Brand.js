@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const BrandsSchema = new mongoose.Schema(
+const BrandSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -14,4 +14,4 @@ const BrandsSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.models.Brands || mongoose.model("Brands", BrandsSchema);
+export default mongoose.models.Brand || mongoose.model("Brand", BrandSchema);
