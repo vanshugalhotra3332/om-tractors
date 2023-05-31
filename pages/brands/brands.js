@@ -119,7 +119,7 @@ const Brands = ({ fetchedBrands }) => {
         </Link>
       </div>
       <div className="my-8 brands-card rounded-lg border-2 border-gray-200 border-opacity-70 pb-8 shadow-sm">
-        <div className="top-section py-6 px-4 flex justify-between items-center">
+        <div className="top-section py-6 px-4 flex flex-col md:flex-row justify-between items-center">
           <div className="search-bar">
             <SearchOutlinedIcon className="inline-flex text-gray-500 rounded-full cursor-pointer mx-2 up-icon" />
             <input
@@ -128,7 +128,7 @@ const Brands = ({ fetchedBrands }) => {
               className="search-bar-input"
             />
           </div>
-          <div className="action-buttons space-x-2">
+          <div className="action-buttons space-x-2 py-4 space-y-2">
             <div className="filter-btn">
               <TuneOutlinedIcon className="w-5 h-5" />
               <span className="text-base capitalize ml-3">Filter</span>
@@ -209,7 +209,7 @@ const Brands = ({ fetchedBrands }) => {
                           />
                         </th>
                         <td className="px-6 py-4">{name}</td>
-                        <td className="px-6 py-4 space-x-4">
+                        <td className="px-6 py-4 md:space-x-4 space-x-0 space-y-2">
                           <div
                             className="inline-block text-gray-900 up-icon hover:text-black"
                             onClick={() => {
@@ -218,7 +218,7 @@ const Brands = ({ fetchedBrands }) => {
                           >
                             <BorderColorOutlinedIcon className="normal-icon" />
                           </div>
-                          <div className="inline-block text-red-500  up-icon hover:text-red-700">
+                          <div className="inline-block text-red-500 up-icon hover:text-red-700">
                             <DeleteOutlineOutlinedIcon
                               className="normal-icon"
                               onClick={() => {
