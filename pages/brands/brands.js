@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
@@ -20,12 +20,26 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 // toastify
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { postData } from "@/utils/dbFuncs";
+import { fetchData } from "@/utils/dbFuncs";
 
 const Brands = ({ fetchedBrands }) => {
   const router = useRouter();
 
   // local states
   const [brands, setBrands] = useState(fetchedBrands);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // REACT STUFF
+  useEffect(() => {
+    const fetchResults = async () => {
+      const api = `/api/brands/getbrands?search=${searchQuery}`;
+      const results = await fetchData(api);
+      setBrands(results);
+    };
+
+    fetchResults();
+  }, [searchQuery]);
 
   // redux states
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
@@ -90,6 +104,10 @@ const Brands = ({ fetchedBrands }) => {
     router.push(`/brands/addbrand?_id=${_id}&name=${name}&logo=${logo}`);
   };
 
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
   return (
     <section className="py-8 px-8" style={{ marginLeft: marginForSidebar }}>
       <ToastContainer
@@ -126,6 +144,8 @@ const Brands = ({ fetchedBrands }) => {
               type="text"
               placeholder="Search..."
               className="search-bar-input"
+              value={searchQuery}
+              onChange={handleSearchInputChange}
             />
           </div>
           <div className="action-buttons space-x-2 py-4 space-y-2">
