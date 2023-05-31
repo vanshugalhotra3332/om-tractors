@@ -43,8 +43,8 @@ const Brands = ({ fetchedBrands }) => {
 
   // local functions
 
-  const handleDelete = async (event) => {
-    const id = event.target.parentNode.id;
+  const handleDelete = async (_id) => {
+    const id = _id;
 
     try {
       const response = await fetch(`/api/brands/deletebrand?_id=${id}`, {
@@ -212,18 +212,19 @@ const Brands = ({ fetchedBrands }) => {
                         <td className="px-6 py-4 space-x-4">
                           <div
                             className="inline-block text-gray-900 up-icon hover:text-black"
-                            onClick={(event) => {
+                            onClick={() => {
                               handleUpdate(_id, name, logo);
                             }}
                           >
                             <BorderColorOutlinedIcon className="normal-icon" />
                           </div>
-                          <div
-                            className="inline-block text-red-500  up-icon hover:text-red-700"
-                            onClick={handleDelete}
-                            id={_id}
-                          >
-                            <DeleteOutlineOutlinedIcon className="normal-icon" />
+                          <div className="inline-block text-red-500  up-icon hover:text-red-700">
+                            <DeleteOutlineOutlinedIcon
+                              className="normal-icon"
+                              onClick={() => {
+                                handleDelete(_id);
+                              }}
+                            />
                           </div>
                         </td>
                       </tr>
