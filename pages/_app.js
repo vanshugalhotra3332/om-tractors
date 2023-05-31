@@ -6,6 +6,7 @@ import "@/styles/globals.css";
 
 // components
 import Sidebar from "@/components/Sidebar";
+import TopLoadingBar from "@/components/LoadingBar/TopLoadingBar";
 
 // redux
 import { Provider } from "react-redux";
@@ -48,6 +49,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Provider store={store}>
+        <TopLoadingBar />
         <Navbar />
         <Sidebar />
         <Component {...pageProps} />
