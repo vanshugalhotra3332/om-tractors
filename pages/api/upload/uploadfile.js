@@ -14,7 +14,6 @@ export default async function upload(req, res) {
   }
 
   const form = new formidable.IncomingForm();
-  form.uploadDir = "./public/assets/images/brands"; // Directory where the uploaded files will be stored
 
   form.parse(req, (err, fields, files) => {
     if (err) {
@@ -24,9 +23,11 @@ export default async function upload(req, res) {
     }
 
     const file = files.file; // 'file' should match the field name in your file input
+    const fileType = fields.type;
+    form.uploadDir = `./public/assets/images/${fileType}`; // Directory where the uploaded files will be stored
 
     // Handle the file upload here
-    handleFileUpload(file)
+    handleFileUpload(file, form.uploadDir)
       .then(() => {
         res.status(200).json({ message: "File uploaded successfully" });
       })
@@ -37,8 +38,8 @@ export default async function upload(req, res) {
   });
 }
 
-async function handleFileUpload(file) {
-  const uploadPath = "./public/Assets/Images/brands/" + file.originalFilename;
+async function handleFileUpload(file, uploadDir) {
+  const uploadPath = uploadDir + "//" + file.originalFilename;
 
   try {
     await fs.ensureDir("./public/assets/images/brands"); // Create the upload directory if it doesn't exist

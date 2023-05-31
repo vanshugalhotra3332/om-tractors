@@ -2,15 +2,19 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 // toastify
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// db
-import { postData } from "../../db/dbFuncs";
+// utility funcs
+import { postData } from "../../utils/dbFuncs";
+import { uploadFileToServer } from "@/utils/utilityFuncs";
 
 const AddBrand = () => {
+  const router = useRouter();
+
   // local states
   const [brandName, setBrandName] = useState("");
   const [brandLogo, setBrandLogo] = useState("");
@@ -31,31 +35,10 @@ const AddBrand = () => {
 
   // local functions
 
-  async function uploadFileToServer(file) {
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      const response = await fetch("/api/upload/uploadfile", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data); // File uploaded successfully
-      } else {
-        console.error("File upload failed");
-      }
-    } catch (error) {
-      console.error("Error uploading file:", error);
-    }
-  }
-
   // Separate function to handle the file upload
   function handleFileUpload(file) {
     setBrandLogo(file);
-    uploadFileToServer(file);
+    uploadFileToServer(file, "brands");
   }
 
   const submit = async () => {
@@ -71,9 +54,10 @@ const AddBrand = () => {
         theme: "light",
       });
     } else {
+      console.log(brandLogo);
       const data = {
         name: brandName,
-        logo: brandLogo ? brandLogo.split("\\").pop() : "",
+        logo: brandLogo ? brandLogo.name : "",
       };
 
       const METHOD = "POST";
@@ -91,6 +75,9 @@ const AddBrand = () => {
           progress: undefined,
           theme: "light",
         });
+        setTimeout(() => {
+          router.push("/brands/brands");
+        }, 1500);
       } else {
         toast.error("Brand Already Registered!!", {
           position: "top-center",
@@ -130,7 +117,7 @@ const AddBrand = () => {
           </p>
         </div>
       </div>
-      <div className="my-8 brands-card rounded-lg border-2 border-gray-200 border-opacity-70  shadow-sm">
+      <div className="my-8 brands-card rounded-lg border-2 py-2 pb-4 border-gray-200 border-opacity-70  shadow-sm">
         <div className="input-item">
           <label htmlFor="brandname" className="input-label">
             Brand Name
@@ -184,6 +171,23 @@ const AddBrand = () => {
             </label>
           </div>
         </div>
+
+        {brandLogo && (
+          <div className="image-show py-4 px-6">
+            <Image
+              alt="Show"
+              className="w-24 h-24"
+              layout="fixed"
+              width={48}
+              height={48}
+              objectFit="cover"
+              src={`/assets/images/brands/${brandLogo.name}`}
+            />
+            <span className="px-2 text-base tracking-wide leading-loose text-gray-900">
+              {brandLogo.name}
+            </span>
+          </div>
+        )}
 
         <div className="control-buttons mx-4 my-4">
           <div

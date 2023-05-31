@@ -134,7 +134,7 @@ const Brands = ({ brands }) => {
                             width={58}
                             height={58}
                             objectFit="cover"
-                            src={logo}
+                            src={`/assets/images/brands/${logo}`}
                           />
                         </th>
                         <td className="px-6 py-4">{name}</td>
