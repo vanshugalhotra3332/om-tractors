@@ -3,6 +3,10 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
 
+// toastify
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // db
 import { postData } from "../../db/dbFuncs";
 
@@ -27,20 +31,67 @@ const AddBrand = () => {
 
   // local functions
   const submit = async () => {
-    const data = {
-      name: brandName,
-      logo: brandLogo ? brandLogo : "",
-    };
+    if (!brandName) {
+      toast.error("Please Provide Brand Name!!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      const data = {
+        name: brandName,
+        logo: brandLogo ? brandLogo : "",
+      };
 
-    const METHOD = "POST";
-    const api = "http://localhost:3000/api/brands/addbrand";
+      const METHOD = "POST";
+      const api = "http://localhost:3000/api/brands/addbrand";
 
-    const response = await postData(METHOD, data, api);
-    console.log(response);
+      const response = await postData(METHOD, data, api);
+      if (response.success) {
+        toast.success("Brand Registered Successfully!!", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else {
+        toast.error("Brand Already Registered!!", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
   };
 
   return (
     <section className="py-8 px-8" style={{ marginLeft: marginForSidebar }}>
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="top flex items-center justify-between">
         <div className="left">
           <h2 className="text-xl text-gray-900 font-medium tracking-wide leading-snug">
