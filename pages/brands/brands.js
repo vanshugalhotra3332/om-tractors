@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import Link from "next/link";
 
 // Icons import
 import { Add } from "@mui/icons-material";
@@ -34,12 +35,12 @@ const Brands = () => {
             Manage Your Brands
           </p>
         </div>
-        <div className="right-btn icon-btn">
+        <Link className="right-btn icon-btn" href={"/brands/addbrand"}>
           <Add className="w-6 h-6 text-white font-medium" />
           <span className="text-white font-medium px-2 text-lg">Add Brand</span>
-        </div>
+        </Link>
       </div>
-      <div className="my-8 brands-card rounded-lg border-2 border-gray-200 border-opacity-70 h-screen shadow-sm">
+      <div className="my-8 brands-card rounded-lg border-2 border-gray-200 border-opacity-70  shadow-sm">
         <div className="top-section py-6 px-4 flex justify-between items-center">
           <div className="search-bar">
             <SearchOutlinedIcon className="inline-flex text-gray-500 rounded-full cursor-pointer mx-2 transition-all duration-200 ease-out hover:-translate-y-[.5px]" />

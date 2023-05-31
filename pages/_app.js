@@ -52,7 +52,7 @@ function MyApp({ Component, pageProps }) {
         <TopLoadingBar />
         <Navbar />
         <Sidebar />
-        <Component {...pageProps} />
+        <Component {...pageProps}/>
       </Provider>
     </>
   );
