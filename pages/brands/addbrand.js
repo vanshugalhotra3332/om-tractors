@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
 
+// db
+import { postData } from "../../db/dbFuncs";
+
 const AddBrand = () => {
+  // local states
+  const [brandName, setBrandName] = useState("");
+  const [brandLogo, setBrandLogo] = useState("");
+
   // redux states
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
   const sideBarOpenWidth = useSelector(
@@ -17,6 +24,20 @@ const AddBrand = () => {
   // local variables
   let marginForSidebar = isSidebarOpen ? sideBarOpenWidth : sideBarCloseWidth;
   marginForSidebar = windowWidth < 768 ? 0 : marginForSidebar;
+
+  // local functions
+  const submit = async () => {
+    const data = {
+      name: brandName,
+      logo: brandLogo ? brandLogo : "",
+    };
+
+    const METHOD = "POST";
+    const api = "http://localhost:3000/api/brands/addbrand";
+
+    const response = await postData(METHOD, data, api);
+    console.log(response);
+  };
 
   return (
     <section className="py-8 px-8" style={{ marginLeft: marginForSidebar }}>
@@ -40,18 +61,26 @@ const AddBrand = () => {
             className="input-box"
             id="brandname"
             name="brandname"
+            value={brandName}
+            onChange={(event) => {
+              setBrandName(event.target.value);
+            }}
           />
         </div>
         <div className="input-item">
           <label htmlFor="brandlogo" className="input-label">
             Brand Logo
           </label>
-          <div className="upload relative border rounded-md border-[#919eab52] my-4 flex items-center justify-center flex-col py-2 cursor-pointer">
+          <div className="upload relative border rounded-md border-[#919eab52] my-4 flex items-center justify-center flex-col py-2 cursor-pointer  transition-all duration-100 ease-in hover:bg-gray-100">
             <input
               type="file"
               className="!w-full h-[100px] opacity-0 relative"
               id="brandlogo"
               name="brandlogo"
+              value={brandLogo}
+              onChange={(event) => {
+                setBrandLogo(event.target.value);
+              }}
             />
             <label
               htmlFor="brandlogo"
@@ -76,7 +105,10 @@ const AddBrand = () => {
         </div>
 
         <div className="control-buttons mx-4 my-4">
-          <div className="primary-btn bg-orange-400 hover:bg-orange-500">
+          <div
+            className="primary-btn bg-orange-400 hover:bg-orange-500"
+            onClick={submit}
+          >
             Submit
           </div>
           <Link
