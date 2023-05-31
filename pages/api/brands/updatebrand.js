@@ -9,7 +9,9 @@ const handler = async (req, res) => {
       const brand = await Brand.findById(_id);
 
       if (!brand) {
-        return res.status(404).json({ error: "Brand not found" });
+        return res
+          .status(404)
+          .json({ success: false, error: "Brand not found" });
       }
 
       // Update the brand fields
@@ -20,10 +22,12 @@ const handler = async (req, res) => {
 
       res.status(200).json({ success: true, brand });
     } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({ success: false, error: "Internal server error" });
     }
   } else {
-    res.status(400).json({ error: "This method is not allowed" });
+    res
+      .status(400)
+      .json({ success: false, error: "This method is not allowed" });
   }
 };
 

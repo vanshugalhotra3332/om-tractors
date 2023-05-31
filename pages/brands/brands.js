@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 // db
 import mongoose from "mongoose";
@@ -21,6 +22,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Brands = ({ fetchedBrands }) => {
+  const router = useRouter();
+
   // local states
   const [brands, setBrands] = useState(fetchedBrands);
 
@@ -81,6 +84,10 @@ const Brands = ({ fetchedBrands }) => {
     } catch (error) {
       console.error("Error deleting brand:", error);
     }
+  };
+
+  const handleUpdate = async (_id, name, logo) => {
+    router.push(`/brands/addbrand?_id=${_id}&name=${name}&logo=${logo}`);
   };
 
   return (
@@ -203,7 +210,12 @@ const Brands = ({ fetchedBrands }) => {
                         </th>
                         <td className="px-6 py-4">{name}</td>
                         <td className="px-6 py-4 space-x-4">
-                          <div className="inline-block text-gray-900 up-icon hover:text-black">
+                          <div
+                            className="inline-block text-gray-900 up-icon hover:text-black"
+                            onClick={(event) => {
+                              handleUpdate(_id, name, logo);
+                            }}
+                          >
                             <BorderColorOutlinedIcon className="normal-icon" />
                           </div>
                           <div

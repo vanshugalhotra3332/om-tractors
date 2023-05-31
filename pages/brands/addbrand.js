@@ -15,9 +15,12 @@ import { uploadFileToServer } from "@/utils/utilityFuncs";
 const AddBrand = () => {
   const router = useRouter();
 
+  // url query
+  const { _id, name, logo } = router.query;
+
   // local states
-  const [brandName, setBrandName] = useState("");
-  const [brandLogo, setBrandLogo] = useState("");
+  const [brandName, setBrandName] = useState(name);
+  const [brandLogo, setBrandLogo] = useState({ name: logo });
 
   // redux states
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
@@ -35,7 +38,6 @@ const AddBrand = () => {
 
   // local functions
 
-  // Separate function to handle the file upload
   function handleFileUpload(file) {
     setBrandLogo(file);
     uploadFileToServer(file, "brands");
@@ -59,12 +61,22 @@ const AddBrand = () => {
         logo: brandLogo ? brandLogo.name : "",
       };
 
-      const METHOD = "POST";
-      const api = "/api/brands/addbrand";
+      // for new brand add
+      let METHOD = "POST";
+      let api = "/api/brands/addbrand";
+      if (_id) {
+        // if it is an update request
+        METHOD = "PATCH";
+        api = "/api/brands/updatebrand";
+        data._id = _id;
+      }
 
       const response = await postData(METHOD, data, api);
       if (response.success) {
-        toast.success("Brand Registered Successfully!!", {
+        let message = _id
+          ? "Brand Updated Successfully!!"
+          : "Brand Registered Successfully!!";
+        toast.success(message, {
           position: "top-center",
           autoClose: 1000,
           hideProgressBar: false,
@@ -171,7 +183,7 @@ const AddBrand = () => {
           </div>
         </div>
 
-        {brandLogo && (
+        {brandLogo.name && (
           <div className="image-show py-4 px-6">
             <Image
               alt="Show"
