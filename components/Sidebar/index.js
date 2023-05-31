@@ -112,7 +112,7 @@ const Sidebar = () => {
     {
       name: "brands",
       icon: BrandingWatermarkOutlinedIcon,
-      url: "/brands",
+      url: "/brands/brands",
     },
   ];
 

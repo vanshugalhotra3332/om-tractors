@@ -24,4 +24,44 @@
   .sidebar-nav-link-active {
     @apply bg-blue-100 text-blue-600;
   }
+
+  .icon-btn {
+    @apply inline-flex py-2 px-2 capitalize justify-between items-center bg-orange-400 rounded cursor-pointer transition-all duration-100 ease-in;
+  }
+
+  .icon-btn:hover {
+    @apply bg-blue-950;
+  }
+
+  .filter-btn {
+    @apply text-purple-700 border-purple-700 border rounded inline-flex items-center justify-center py-2 px-6 font-medium cursor-pointer transition-all duration-150 ease-in-out;
+  }
+
+  .filter-btn:hover {
+    @apply bg-purple-700 text-white;
+  }
+
+  .pdf-btn {
+    @apply text-orange-500 border-orange-500 border rounded inline-flex items-center justify-center py-2 px-3 font-medium cursor-pointer transition-all duration-150 ease-in-out;
+  }
+
+  .pdf-btn:hover {
+    @apply bg-orange-500 text-white;
+  }
+
+  .csv-btn {
+    @apply text-green-700 border-green-700 border rounded inline-flex items-center justify-center py-2 px-3 font-medium cursor-pointer transition-all duration-150 ease-in-out;
+  }
+
+  .csv-btn:hover {
+    @apply bg-green-700 text-white;
+  }
+
+  .search-bar {
+    @apply flex items-center md:border rounded-md py-2  md:shadow-sm w-1/4;
+  }
+
+  .search-bar-input {
+    @apply pl-2 pr-8 bg-transparent outline-none flex-grow text-base text-gray-600 placeholder-gray-400;
+  }
 }
