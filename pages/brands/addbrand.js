@@ -30,6 +30,34 @@ const AddBrand = () => {
   marginForSidebar = windowWidth < 768 ? 0 : marginForSidebar;
 
   // local functions
+
+  async function uploadFileToServer(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch("/api/upload/uploadfile", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data); // File uploaded successfully
+      } else {
+        console.error("File upload failed");
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+  }
+
+  // Separate function to handle the file upload
+  function handleFileUpload(file) {
+    setBrandLogo(file);
+    uploadFileToServer(file);
+  }
+
   const submit = async () => {
     if (!brandName) {
       toast.error("Please Provide Brand Name!!", {
@@ -49,7 +77,7 @@ const AddBrand = () => {
       };
 
       const METHOD = "POST";
-      const api = "http://localhost:3000/api/brands/addbrand";
+      const api = "/api/brands/addbrand";
 
       const response = await postData(METHOD, data, api);
       if (response.success) {
@@ -128,9 +156,11 @@ const AddBrand = () => {
               className="!w-full h-[100px] opacity-0 relative"
               id="brandlogo"
               name="brandlogo"
-              value={brandLogo}
               onChange={(event) => {
-                setBrandLogo(event.target.value);
+                if (event.target.files) {
+                  const file = event.target.files[0];
+                  handleFileUpload(file);
+                }
               }}
             />
             <label
