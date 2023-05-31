@@ -45,7 +45,7 @@ const AddBrand = () => {
     } else {
       const data = {
         name: brandName,
-        logo: brandLogo ? brandLogo : "",
+        logo: brandLogo ? brandLogo.split("\\").pop() : "",
       };
 
       const METHOD = "POST";
