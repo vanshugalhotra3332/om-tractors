@@ -54,7 +54,6 @@ const AddBrand = () => {
         theme: "light",
       });
     } else {
-      console.log(brandLogo);
       const data = {
         name: brandName,
         logo: brandLogo ? brandLogo.name : "",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
@@ -16,7 +16,14 @@ import FormatListBulletedOutlinedIcon from "@mui/icons-material/FormatListBullet
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
-const Brands = ({ brands }) => {
+// toastify
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const Brands = ({ fetchedBrands }) => {
+  // local states
+  const [brands, setBrands] = useState(fetchedBrands);
+
   // redux states
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
   const sideBarOpenWidth = useSelector(
@@ -31,8 +38,65 @@ const Brands = ({ brands }) => {
   let marginForSidebar = isSidebarOpen ? sideBarOpenWidth : sideBarCloseWidth;
   marginForSidebar = windowWidth < 768 ? 0 : marginForSidebar;
 
+  // local functions
+
+  const handleDelete = async (event) => {
+    const id = event.target.parentNode.id;
+
+    try {
+      const response = await fetch(`/api/brands/deletebrand?_id=${id}`, {
+        method: "DELETE",
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setBrands((prevBrands) =>
+          prevBrands.filter((brand) => brand._id !== id)
+        );
+
+        toast.success(data.message, {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        // Perform any necessary UI updates or actions after successful deletion
+      } else {
+        toast.error(data.error, {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    } catch (error) {
+      console.error("Error deleting brand:", error);
+    }
+  };
+
   return (
     <section className="py-8 px-8" style={{ marginLeft: marginForSidebar }}>
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="top flex items-center justify-between">
         <div className="left">
           <h2 className="text-xl text-gray-900 font-medium tracking-wide leading-snug">
@@ -102,11 +166,11 @@ const Brands = ({ brands }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {brands.map(({ name, logo }) => {
+                  {brands.map(({ _id, name, logo }) => {
                     return (
                       <tr
                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                        key={name}
+                        key={_id}
                       >
                         <td className="w-4 p-4">
                           <div className="flex items-center">
@@ -142,7 +206,11 @@ const Brands = ({ brands }) => {
                           <div className="inline-block text-gray-900 up-icon hover:text-black">
                             <BorderColorOutlinedIcon className="normal-icon" />
                           </div>
-                          <div className="inline-block text-red-500  up-icon hover:text-red-700">
+                          <div
+                            className="inline-block text-red-500  up-icon hover:text-red-700"
+                            onClick={handleDelete}
+                            id={_id}
+                          >
                             <DeleteOutlineOutlinedIcon className="normal-icon" />
                           </div>
                         </td>
@@ -169,7 +237,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      brands: JSON.parse(JSON.stringify(brands)),
+      fetchedBrands: JSON.parse(JSON.stringify(brands)),
     },
   };
 }
