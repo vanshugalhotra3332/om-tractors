@@ -107,7 +107,7 @@ const Sidebar = () => {
     {
       name: "category",
       icon: ClassOutlinedIcon,
-      url: "/category",
+      url: "/category/categories",
     },
     {
       name: "brands",

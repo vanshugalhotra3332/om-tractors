@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 
 // db
 import mongoose from "mongoose";
-import Brand from "@/models/Brand";
+import Category from "@/models/Category";
 
 // Icons import
 import { Add } from "@mui/icons-material";
@@ -22,19 +22,19 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { fetchData } from "@/utils/dbFuncs";
 
-const Brands = ({ fetchedBrands }) => {
+const Categories = ({ fetchedCategories }) => {
   const router = useRouter();
 
   // local states
-  const [brands, setBrands] = useState(fetchedBrands);
+  const [categories, setCategories] = useState(fetchedCategories);
   const [searchQuery, setSearchQuery] = useState("");
 
   // REACT STUFF
   useEffect(() => {
     const fetchResults = async () => {
-      const api = `/api/brands/getbrands?search=${searchQuery}`;
+      const api = `/api/category/getcategories?search=${searchQuery}`;
       const results = await fetchData(api);
-      setBrands(results);
+      setCategories(results);
     };
 
     fetchResults();
@@ -60,15 +60,15 @@ const Brands = ({ fetchedBrands }) => {
     const id = _id;
 
     try {
-      const response = await fetch(`/api/brands/deletebrand?_id=${id}`, {
+      const response = await fetch(`/api/category/deletecategory?_id=${id}`, {
         method: "DELETE",
       });
 
       const data = await response.json();
 
       if (data.success) {
-        setBrands((prevBrands) =>
-          prevBrands.filter((brand) => brand._id !== id)
+        setCategories((prevCategory) =>
+          prevCategory.filter((category) => category._id !== id)
         );
 
         toast.success(data.message, {
@@ -95,15 +95,15 @@ const Brands = ({ fetchedBrands }) => {
         });
       }
     } catch (error) {
-      console.error("Error deleting brand:", error);
+      console.error("Error deleting category:", error);
     }
   };
 
-  const handleUpdate = async (_id, name, logo) => {
+  const handleUpdate = async (_id, name, image) => {
     router.push(
-      `/brands/addbrand?_id=${_id}&encodedName=${encodeURIComponent(
+      `/category/addcategory?_id=${_id}&encodedName=${encodeURIComponent(
         name
-      )}&logo=${logo}`
+      )}&image=${image}`
     );
   };
 
@@ -128,15 +128,17 @@ const Brands = ({ fetchedBrands }) => {
       <div className="top flex items-center justify-between">
         <div className="left">
           <h2 className="text-xl text-gray-900 font-medium tracking-wide leading-snug">
-            Brand List
+            Category List
           </h2>
           <p className="text-sm text-gray-600 py-1 tracking-wide">
-            Manage Your Brands
+            Manage Your Categories
           </p>
         </div>
-        <Link className="right-btn icon-btn" href={"/brands/addbrand"}>
+        <Link className="right-btn icon-btn" href={"/category/addcategory"}>
           <Add className="w-6 h-6 text-white font-medium" />
-          <span className="text-white font-medium px-2 text-lg">Add Brand</span>
+          <span className="text-white font-medium px-2 text-lg">
+            Add Category
+          </span>
         </Link>
       </div>
       <div className="my-8 brands-card rounded-lg border-2 border-gray-200 border-opacity-70 pb-8 shadow-sm">
@@ -188,7 +190,7 @@ const Brands = ({ fetchedBrands }) => {
                       </div>
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      Logo
+                      Image
                     </th>
                     <th scope="col" className="px-6 py-3">
                       Name
@@ -199,7 +201,7 @@ const Brands = ({ fetchedBrands }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {brands.map(({ _id, name, logo }) => {
+                  {categories.map(({ _id, name, image }) => {
                     return (
                       <tr
                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -231,7 +233,7 @@ const Brands = ({ fetchedBrands }) => {
                             width={58}
                             height={58}
                             objectFit="cover"
-                            src={`/assets/images/brands/${logo}`}
+                            src={`/assets/images/category/${image}`}
                           />
                         </th>
                         <td className="px-6 py-4">{name}</td>
@@ -239,7 +241,7 @@ const Brands = ({ fetchedBrands }) => {
                           <div
                             className="inline-block text-gray-900 up-icon hover:text-black"
                             onClick={() => {
-                              handleUpdate(_id, name, logo);
+                              handleUpdate(_id, name, image);
                             }}
                           >
                             <BorderColorOutlinedIcon className="normal-icon" />
@@ -272,13 +274,13 @@ export async function getServerSideProps(context) {
     await mongoose.connect(process.env.MONGO_URI);
   }
 
-  const brands = await Brand.find({});
+  const categories = await Category.find({});
 
   return {
     props: {
-      fetchedBrands: JSON.parse(JSON.stringify(brands)),
+      fetchedCategories: JSON.parse(JSON.stringify(categories)),
     },
   };
 }
 
-export default Brands;
+export default Categories;

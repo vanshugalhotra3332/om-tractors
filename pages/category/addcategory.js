@@ -12,16 +12,16 @@ import "react-toastify/dist/ReactToastify.css";
 import { postData } from "../../utils/dbFuncs";
 import { uploadFileToServer } from "@/utils/utilityFuncs";
 
-const AddBrand = () => {
+const AddCategory = () => {
   const router = useRouter();
 
   // url query
-  const { _id, encodedName, logo } = router.query;
+  const { _id, encodedName, image } = router.query;
   const name = decodeURIComponent(encodedName);
 
   // local states
-  const [brandName, setBrandName] = useState(encodedName ? name : "");
-  const [brandLogo, setBrandLogo] = useState({ name: logo });
+  const [categoryName, setCategoryName] = useState(encodedName ? name : "");
+  const [categoryImage, setCategoryImage] = useState({ name: image });
 
   // redux states
   const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
@@ -40,13 +40,13 @@ const AddBrand = () => {
   // local functions
 
   function handleFileUpload(file) {
-    setBrandLogo(file);
-    uploadFileToServer(file, "brands");
+    setCategoryImage(file);
+    uploadFileToServer(file, "category");
   }
 
   const submit = async () => {
-    if (!brandName) {
-      toast.error("Please Provide Brand Name!!", {
+    if (!categoryName) {
+      toast.error("Please Provide Category Name!!", {
         position: "top-center",
         autoClose: 1000,
         hideProgressBar: false,
@@ -58,25 +58,25 @@ const AddBrand = () => {
       });
     } else {
       const data = {
-        name: brandName,
-        logo: brandLogo ? brandLogo.name : "",
+        name: categoryName,
+        image: categoryImage ? categoryImage.name : "",
       };
 
-      // for new brand add
+      // for new category add
       let METHOD = "POST";
-      let api = "/api/brands/addbrand";
+      let api = "/api/category/addcategory";
       if (_id) {
         // if it is an update request
         METHOD = "PATCH";
-        api = "/api/brands/updatebrand";
+        api = "/api/category/updatecategory";
         data._id = _id;
       }
 
       const response = await postData(METHOD, data, api);
       if (response.success) {
         let message = _id
-          ? "Brand Updated Successfully!!"
-          : "Brand Registered Successfully!!";
+          ? "Category Updated Successfully!!"
+          : "Category Created Successfully!!";
         toast.success(message, {
           position: "top-center",
           autoClose: 1000,
@@ -88,10 +88,10 @@ const AddBrand = () => {
           theme: "light",
         });
         setTimeout(() => {
-          router.push("/brands/brands");
+          router.push("/category/categories");
         }, 1500);
       } else {
-        toast.error("Brand Already Registered!!", {
+        toast.error("Category Already Exists!!", {
           position: "top-center",
           autoClose: 1000,
           hideProgressBar: false,
@@ -122,39 +122,39 @@ const AddBrand = () => {
       <div className="top flex items-center justify-between">
         <div className="left">
           <h2 className="text-xl text-gray-900 font-medium tracking-wide leading-snug">
-            Add Brand
+            Add Category
           </h2>
           <p className="text-sm text-gray-600 py-1 tracking-wide">
-            Register New Brand
+            Create New Category
           </p>
         </div>
       </div>
       <div className="my-8 brands-card rounded-lg border-2 py-2 pb-4 border-gray-200 border-opacity-70  shadow-sm">
         <div className="input-item">
-          <label htmlFor="brandname" className="input-label">
-            Brand Name
+          <label htmlFor="categoryName" className="input-label">
+            Category Name
           </label>
           <input
             type="text"
             className="input-box"
-            id="brandname"
-            name="brandname"
-            value={brandName}
+            id="categoryName"
+            name="categoryName"
+            value={categoryName}
             onChange={(event) => {
-              setBrandName(event.target.value);
+              setCategoryName(event.target.value);
             }}
           />
         </div>
         <div className="input-item">
-          <label htmlFor="brandlogo" className="input-label">
-            Brand Logo
+          <label htmlFor="categoryImage" className="input-label">
+            Category Image
           </label>
           <div className="upload relative border rounded-md border-[#919eab52] my-4 flex items-center justify-center flex-col py-2 cursor-pointer  transition-all duration-100 ease-in hover:bg-gray-100">
             <input
               type="file"
               className="!w-full h-[100px] opacity-0 relative"
-              id="brandlogo"
-              name="brandlogo"
+              id="categoryImage"
+              name="categoryImage"
               onChange={(event) => {
                 if (event.target.files) {
                   const file = event.target.files[0];
@@ -163,7 +163,7 @@ const AddBrand = () => {
               }}
             />
             <label
-              htmlFor="brandlogo"
+              htmlFor="categoryImage"
               className="image-upload absolute top-0 rounded-md z-[100] cursor-pointer"
             >
               <div className="flex flex-col items-center justify-center my-6">
@@ -184,19 +184,19 @@ const AddBrand = () => {
           </div>
         </div>
 
-        {brandLogo.name && (
+        {categoryImage.name && (
           <div className="image-show py-4 px-6">
             <Image
-              alt="Show"
+              alt=""
               className="w-24 h-24"
               layout="fixed"
               width={48}
               height={48}
               objectFit="cover"
-              src={`/assets/images/brands/${brandLogo.name}`}
+              src={`/assets/images/category/${categoryImage.name}`}
             />
             <span className="px-2 text-base tracking-wide leading-loose text-gray-900">
-              {brandLogo.name}
+              {categoryImage.name}
             </span>
           </div>
         )}
@@ -209,7 +209,7 @@ const AddBrand = () => {
             Submit
           </div>
           <Link
-            href={"/brands/brands"}
+            href={"/category/categories"}
             className="primary-btn bg-gray-500 hover:bg-gray-600"
           >
             Cancel
@@ -220,4 +220,4 @@ const AddBrand = () => {
   );
 };
 
-export default AddBrand;
+export default AddCategory;
