@@ -16,7 +16,8 @@ const AddBrand = () => {
   const router = useRouter();
 
   // url query
-  const { _id, name, logo } = router.query;
+  const { _id, encodedName, logo } = router.query;
+  const name = decodeURIComponent(encodedName);
 
   // local states
   const [brandName, setBrandName] = useState(name);

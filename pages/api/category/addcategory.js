@@ -1,11 +1,11 @@
-import Brand from "@/models/Brand";
+import Category from "@/models/Category";
 import connectDb from "@/db/mongoose";
 
 const handler = async (req, res) => {
   if (req.method == "POST") {
     try {
-      let brand = new Brand(req.body);
-      await brand.save();
+      let category = new Category(req.body);
+      await category.save();
 
       res.status(200).json({ success: true });
     } catch (error) {
