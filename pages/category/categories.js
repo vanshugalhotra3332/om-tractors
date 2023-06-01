@@ -17,10 +17,9 @@ import FormatListBulletedOutlinedIcon from "@mui/icons-material/FormatListBullet
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
-// toastify
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// utility funcs
 import { fetchData } from "@/utils/dbFuncs";
+import { raiseToast } from "@/utils/utilityFuncs";
 
 const Categories = ({ fetchedCategories }) => {
   const router = useRouter();
@@ -70,29 +69,10 @@ const Categories = ({ fetchedCategories }) => {
         setCategories((prevCategory) =>
           prevCategory.filter((category) => category._id !== id)
         );
-
-        toast.success(data.message, {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        raiseToast("success", data.message);
         // Perform any necessary UI updates or actions after successful deletion
       } else {
-        toast.error(data.error, {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        raiseToast("error", data.error);
       }
     } catch (error) {
       console.error("Error deleting category:", error);
@@ -113,18 +93,6 @@ const Categories = ({ fetchedCategories }) => {
 
   return (
     <section className="py-8 px-8" style={{ marginLeft: marginForSidebar }}>
-      <ToastContainer
-        position="top-center"
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
       <div className="top flex items-center justify-between">
         <div className="left">
           <h2 className="text-xl text-gray-900 font-medium tracking-wide leading-snug">

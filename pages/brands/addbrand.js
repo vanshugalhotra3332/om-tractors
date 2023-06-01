@@ -4,13 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-// toastify
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
 // utility funcs
 import { postData } from "../../utils/dbFuncs";
-import { uploadFileToServer } from "@/utils/utilityFuncs";
+import { uploadFileToServer, raiseToast } from "@/utils/utilityFuncs";
 
 const AddBrand = () => {
   const router = useRouter();
@@ -46,16 +42,7 @@ const AddBrand = () => {
 
   const submit = async () => {
     if (!brandName) {
-      toast.error("Please Provide Brand Name!!", {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      raiseToast("error", "Please Provide Brand Name!!");
     } else {
       const data = {
         name: brandName,
@@ -77,48 +64,18 @@ const AddBrand = () => {
         let message = _id
           ? "Brand Updated Successfully!!"
           : "Brand Registered Successfully!!";
-        toast.success(message, {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        raiseToast("success", message);
         setTimeout(() => {
           router.push("/brands/brands");
         }, 1500);
       } else {
-        toast.error("Brand Already Registered!!", {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        raiseToast("info", "Brand Already Registered!!");
       }
     }
   };
 
   return (
     <section className="py-8 px-8" style={{ marginLeft: marginForSidebar }}>
-      <ToastContainer
-        position="top-center"
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
       <div className="top flex items-center justify-between">
         <div className="left">
           <h2 className="text-xl text-gray-900 font-medium tracking-wide leading-snug">

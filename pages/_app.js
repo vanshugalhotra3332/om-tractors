@@ -4,6 +4,10 @@ import { useRouter } from "next/router";
 //css imports
 import "@/styles/globals.css";
 
+// toastify
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // components
 import Sidebar from "@/components/Sidebar";
 import TopLoadingBar from "@/components/LoadingBar/TopLoadingBar";
@@ -50,9 +54,21 @@ function MyApp({ Component, pageProps }) {
     <>
       <Provider store={store}>
         <TopLoadingBar />
+        <ToastContainer
+          position="top-center"
+          autoClose={1000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <Navbar />
         <Sidebar />
-        <Component {...pageProps}/>
+        <Component {...pageProps} />
       </Provider>
     </>
   );

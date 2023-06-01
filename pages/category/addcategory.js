@@ -4,13 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-// toastify
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
 // utility funcs
 import { postData } from "../../utils/dbFuncs";
-import { uploadFileToServer } from "@/utils/utilityFuncs";
+import { uploadFileToServer, raiseToast } from "@/utils/utilityFuncs";
 
 const AddCategory = () => {
   const router = useRouter();
@@ -46,16 +42,7 @@ const AddCategory = () => {
 
   const submit = async () => {
     if (!categoryName) {
-      toast.error("Please Provide Category Name!!", {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      raiseToast("error", "Please Provide Category Name!!");
     } else {
       const data = {
         name: categoryName,
@@ -77,48 +64,18 @@ const AddCategory = () => {
         let message = _id
           ? "Category Updated Successfully!!"
           : "Category Created Successfully!!";
-        toast.success(message, {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        raiseToast("success", message);
         setTimeout(() => {
           router.push("/category/categories");
         }, 1500);
       } else {
-        toast.error("Category Already Exists!!", {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        raiseToast("info", "Category Already Exists!!");
       }
     }
   };
 
   return (
     <section className="py-8 px-8" style={{ marginLeft: marginForSidebar }}>
-      <ToastContainer
-        position="top-center"
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
       <div className="top flex items-center justify-between">
         <div className="left">
           <h2 className="text-xl text-gray-900 font-medium tracking-wide leading-snug">
