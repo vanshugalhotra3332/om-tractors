@@ -18,6 +18,8 @@ const handler = async (req, res) => {
       category.name = name ? name : category.name;
       category.image = image ? image : category.image;
 
+      // Run validators
+      await category.validate();
       await category.save();
 
       res.status(200).json({ success: true });

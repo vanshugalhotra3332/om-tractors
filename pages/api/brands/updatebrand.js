@@ -18,6 +18,8 @@ const handler = async (req, res) => {
       brand.name = name ? name : brand.name;
       brand.logo = logo ? logo : brand.logo;
 
+      // Run validators
+      await brand.validate();
       await brand.save();
 
       res.status(200).json({ success: true });
