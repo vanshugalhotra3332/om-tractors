@@ -7,10 +7,14 @@ const ProductSchema = new mongoose.Schema(
       unique: true,
       required: true,
     },
-    partNumber: { type: String, unique: true, sparse: true, default: null },
+    partNumber: {
+      type: String,
+      unique: true,
+      default: "",
+    },
     brand: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Brands",
+      ref: "Brand",
       required: true,
     },
     mrp: { type: Number, default: null },
@@ -22,7 +26,7 @@ const ProductSchema = new mongoose.Schema(
     minQuantity: { type: Number, default: 1 },
     description: { type: String, default: "" },
     boxNumber: { type: String, default: "" },
-    images: [{ type: String }],
+    images: { type: [String], default: ["default.svg"] },
     code: { type: String, default: "" },
   },
   { timestamps: true }

@@ -9,9 +9,10 @@ const CategorySchema = new mongoose.Schema(
     },
     image: {
       type: String,
+      default: "default.svg",
     },
   },
-  { timestamps: true }
+  { timestamps: true, collection: "categories" }
 );
 
 export default mongoose.models.Category ||

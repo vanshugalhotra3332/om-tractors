@@ -9,9 +9,10 @@ const BrandSchema = new mongoose.Schema(
     },
     logo: {
       type: String,
+      default: "default.svg",
     },
   },
-  { timestamps: true }
+  { timestamps: true, collection: "brands" }
 );
 
 export default mongoose.models.Brand || mongoose.model("Brand", BrandSchema);

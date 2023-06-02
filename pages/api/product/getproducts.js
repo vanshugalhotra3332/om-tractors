@@ -12,7 +12,10 @@ const handler = async (req, res) => {
         : {};
 
       // Fetch brands based on the search query
-      const products = await Product.find(searchQuery);
+      const products = await Product.find(searchQuery)
+        .populate("brand", "name")
+        .populate("category", "name");
+        
       res.status(200).json(products);
     } catch (error) {
       console.error(error);

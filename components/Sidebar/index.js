@@ -97,12 +97,12 @@ const Sidebar = () => {
     {
       name: "add product",
       icon: AddBusinessIcon,
-      url: "/addproduct",
+      url: "/product/addproduct",
     },
     {
       name: "product list",
       icon: ChecklistRtlOutlinedIcon,
-      url: "/products",
+      url: "/product/products",
     },
     {
       name: "category",
