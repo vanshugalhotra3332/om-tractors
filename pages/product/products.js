@@ -94,11 +94,33 @@ const Products = ({ fetchedProducts }) => {
     images,
     code
   ) => {
-    router.push(
-      `/product/addproduct?_id=${_id}&encodedName=${encodeURIComponent(
-        name
-      )}&partNumber=${partNumber}`
-    );
+    const data = {
+      _id,
+      name,
+      partNumber,
+      brandID: brand._id,
+      brandName: brand.name,
+      mrp,
+      quantity,
+      categoryID: category._id,
+      categoryName: category.name,
+      minQuantity,
+      description,
+      boxNumber,
+      images,
+      code,
+    };
+    const queryParams = Object.keys(data)
+      .map((key) => {
+        const encodedKey = `encoded_${encodeURIComponent(key)}`;
+        const encodedValue = encodeURIComponent(data[key]);
+        return `${encodedKey}=${encodedValue}`;
+      })
+      .join("&");
+
+    const url = `/product/addproduct?${queryParams}`;
+
+    router.push(url);
   };
 
   const handleSearchInputChange = (event) => {
@@ -201,7 +223,7 @@ const Products = ({ fetchedProducts }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {products.map(
+                  {products?.map(
                     ({
                       _id,
                       name,

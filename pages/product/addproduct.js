@@ -16,28 +16,79 @@ import { uploadFileToServer, raiseToast } from "@/utils/utilityFuncs";
 const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
   const router = useRouter();
 
-  // url query
-  const { _id, encodedName, logo } = router.query;
-  const name = decodeURIComponent(encodedName);
+  // Access the query parameters from the router object
+  const {
+    encoded__id,
+    encoded_name,
+    encoded_partNumber,
+    encoded_brandID,
+    encoded_brandName,
+    encoded_mrp,
+    encoded_quantity,
+    encoded_categoryID,
+    encoded_categoryName,
+    encoded_minQuantity,
+    encoded_description,
+    encoded_boxNumber,
+    encoded_images,
+    encoded_code,
+  } = router.query;
+
+  const _id = decodeURIComponent(encoded__id);
+  const decoded_name = decodeURIComponent(encoded_name);
+  const decoded_partNumber = decodeURIComponent(encoded_partNumber);
+  const decoded_brandID = decodeURIComponent(encoded_brandID);
+  const decoded_brandName = decodeURIComponent(encoded_brandName);
+  const decoded_mrp = decodeURIComponent(encoded_mrp);
+  const decoded_quantity = decodeURIComponent(encoded_quantity);
+  const decoded_categoryID = decodeURIComponent(encoded_categoryID);
+  const decoded_categoryName = decodeURIComponent(encoded_categoryName);
+  const decoded_minQuantity = decodeURIComponent(encoded_minQuantity);
+  const decoded_description = decodeURIComponent(encoded_description);
+  const decoded_boxNumber = decodeURIComponent(encoded_boxNumber);
+  const decoded_code = decodeURIComponent(encoded_code);
+  const decoded_images = decodeURIComponent(encoded_images);
 
   // local states
-  const [productName, setProductName] = useState("");
-  const [partNumber, setPartNumber] = useState(null);
+  const [productName, setProductName] = useState(
+    decoded_name ? decoded_name : ""
+  );
+  const [partNumber, setPartNumber] = useState(
+    decoded_partNumber ? decoded_partNumber : ""
+  );
 
-  const [brand, setBrand] = useState("Select Brand"); // just for showCase
-  const [brandId, setBrandId] = useState(""); //  real data
+  const [brand, setBrand] = useState(
+    decoded_brandName ? decoded_brandName : "Select Brand"
+  ); // just for showCase
+  const [brandId, setBrandId] = useState(
+    decoded_brandID ? decoded_brandID : ""
+  ); //  real data
+  const [mrp, setMrp] = useState(decoded_mrp !== "null" ? decoded_mrp : "");
 
-  const [mrp, setMrp] = useState(null);
-  const [quantity, setQuantity] = useState(null);
+  const [quantity, setQuantity] = useState(
+    decoded_quantity !== "null" ? decoded_quantity : ""
+  );
 
-  const [category, setCategory] = useState("Select Category"); // just for showcase
-  const [categoryId, setCategoryId] = useState(""); // real data
+  const [category, setCategory] = useState(
+    decoded_categoryName ? decoded_categoryName : "Select Category"
+  ); // just for showcase
+  const [categoryId, setCategoryId] = useState(
+    decoded_categoryID ? decoded_categoryID : ""
+  ); // real data
 
-  const [minQuantity, setMinQuantity] = useState("");
-  const [description, setDescription] = useState("");
-  const [boxNumber, setBoxNumber] = useState("");
-  const [images, setImages] = useState([{ name: "default.svg" }]);
-  const [code, setCode] = useState("");
+  const [minQuantity, setMinQuantity] = useState(
+    decoded_minQuantity ? decoded_minQuantity : ""
+  );
+  const [description, setDescription] = useState(
+    decoded_description ? decoded_description : ""
+  );
+  const [boxNumber, setBoxNumber] = useState(
+    decoded_boxNumber !== "null" ? decoded_boxNumber : ""
+  );
+  const [images, setImages] = useState(
+    decoded_images ? [{ name: decoded_images }] : [{ name: "default.svg" }]
+  );
+  const [code, setCode] = useState(decoded_code !== "null" ? decoded_code : "");
 
   const [showBrands, setShowBrands] = useState(false);
   const [showCategories, setShowCategories] = useState(false);

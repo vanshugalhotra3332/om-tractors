@@ -1,3 +1,5 @@
+import Brand from "@/models/Brand";
+import Category from "@/models/Category";
 import Product from "@/models/Product";
 import connectDb from "@/db/mongoose";
 
@@ -15,7 +17,7 @@ const handler = async (req, res) => {
       const products = await Product.find(searchQuery)
         .populate("brand", "name")
         .populate("category", "name");
-        
+
       res.status(200).json(products);
     } catch (error) {
       console.error(error);
