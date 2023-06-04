@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
+
+import { debounce } from "lodash";
 
 // db
 import mongoose from "mongoose";
@@ -30,28 +32,27 @@ const Brands = ({ fetchedBrands }) => {
 
   // REACT STUFF
   useEffect(() => {
-    const fetchResults = async () => {
+    const fetchResults = debounce(async () => {
       const api = `/api/brands/getbrands?search=${searchQuery}`;
       const results = await fetchData(api);
       setBrands(results);
-    };
+    }, 500); // Adjust the debounce delay as needed
 
     fetchResults();
   }, [searchQuery]);
-
   // redux states
-  const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
-  const sideBarOpenWidth = useSelector(
-    (state) => state.sidebar.sideBarOpenWidth
-  );
-  const sideBarCloseWidth = useSelector(
-    (state) => state.sidebar.sideBarCloseWidth
-  );
-  const windowWidth = useSelector((state) => state.global.windowWidth);
+  const {
+    isOpen: isSidebarOpen,
+    sideBarOpenWidth,
+    sideBarCloseWidth,
+  } = useSelector((state) => state.sidebar);
+  const { windowWidth } = useSelector((state) => state.global);
 
   // local variables
-  let marginForSidebar = isSidebarOpen ? sideBarOpenWidth : sideBarCloseWidth;
-  marginForSidebar = windowWidth < 768 ? 0 : marginForSidebar;
+  const marginForSidebar = useMemo(() => {
+    const sidebarWidth = isSidebarOpen ? sideBarOpenWidth : sideBarCloseWidth;
+    return windowWidth < 768 ? 0 : sidebarWidth;
+  }, [isSidebarOpen, sideBarOpenWidth, sideBarCloseWidth, windowWidth]);
 
   // local functions
 

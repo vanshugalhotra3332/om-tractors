@@ -12,6 +12,8 @@ import Category from "@/models/Category";
 // utility funcs
 import { postData } from "../../utils/dbFuncs";
 import { uploadFileToServer, raiseToast } from "@/utils/utilityFuncs";
+import InputContainer from "@/components/FormItems/InputContainer";
+import Dropdown from "@/components/FormItems/Dropdown";
 
 const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
   const router = useRouter();
@@ -34,55 +36,27 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
     encoded_code,
   } = router.query;
 
-  const _id = decodeURIComponent(encoded__id ? encoded__id : "");
-  const decoded_name = decodeURIComponent(encoded_name ? encoded_name : "");
-  const decoded_partNumber = decodeURIComponent(
-    encoded_partNumber ? encoded_partNumber : ""
-  );
-  const decoded_brandID = decodeURIComponent(
-    encoded_brandID ? encoded_brandID : ""
-  );
-  const decoded_brandName = decodeURIComponent(
-    encoded_brandName ? encoded_brandName : ""
-  );
-  const decoded_mrp = decodeURIComponent(encoded_mrp ? encoded_mrp : "");
-  const decoded_quantity = decodeURIComponent(
-    encoded_quantity ? encoded_quantity : ""
-  );
-  const decoded_categoryID = decodeURIComponent(
-    encoded_categoryID ? encoded_categoryID : ""
-  );
-  const decoded_categoryName = decodeURIComponent(
-    encoded_categoryName ? encoded_categoryName : ""
-  );
-  const decoded_minQuantity = decodeURIComponent(
-    encoded_minQuantity ? encoded_minQuantity : ""
-  );
-  const decoded_description = decodeURIComponent(
-    encoded_description ? encoded_description : ""
-  );
-  const decoded_boxNumber = decodeURIComponent(
-    encoded_boxNumber ? encoded_boxNumber : ""
-  );
-  const decoded_code = decodeURIComponent(encoded_code ? encoded_code : "");
-  const decoded_images = decodeURIComponent(
-    encoded_images ? encoded_images : ""
-  );
+  const _id = decodeURIComponent(encoded__id ?? "");
+  const decoded_name = decodeURIComponent(encoded_name ?? "");
+  const decoded_partNumber = decodeURIComponent(encoded_partNumber ?? "");
+  const decoded_brandID = decodeURIComponent(encoded_brandID ?? "");
+  const decoded_brandName = decodeURIComponent(encoded_brandName ?? "");
+  const decoded_mrp = decodeURIComponent(encoded_mrp ?? "");
+  const decoded_quantity = decodeURIComponent(encoded_quantity ?? "");
+  const decoded_categoryID = decodeURIComponent(encoded_categoryID ?? "");
+  const decoded_categoryName = decodeURIComponent(encoded_categoryName ?? "");
+  const decoded_minQuantity = decodeURIComponent(encoded_minQuantity ?? "");
+  const decoded_description = decodeURIComponent(encoded_description ?? "");
+  const decoded_boxNumber = decodeURIComponent(encoded_boxNumber ?? "");
+  const decoded_code = decodeURIComponent(encoded_code ?? "");
+  const decoded_images = decodeURIComponent(encoded_images ?? "");
 
   // local states
-  const [productName, setProductName] = useState(
-    decoded_name ? decoded_name : ""
-  );
-  const [partNumber, setPartNumber] = useState(
-    decoded_partNumber ? decoded_partNumber : ""
-  );
+  const [productName, setProductName] = useState(decoded_name ?? "");
+  const [partNumber, setPartNumber] = useState(decoded_partNumber ?? "");
 
-  const [brand, setBrand] = useState(
-    decoded_brandName ? decoded_brandName : "Select Brand"
-  ); // just for showCase
-  const [brandId, setBrandId] = useState(
-    decoded_brandID ? decoded_brandID : ""
-  ); //  real data
+  const [brand, setBrand] = useState(decoded_brandName ?? "Select Brand"); // just for showCase
+  const [brandId, setBrandId] = useState(decoded_brandID ?? ""); //  real data
   const [mrp, setMrp] = useState(decoded_mrp !== "null" ? decoded_mrp : "");
 
   const [quantity, setQuantity] = useState(
@@ -90,18 +64,12 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
   );
 
   const [category, setCategory] = useState(
-    decoded_categoryName ? decoded_categoryName : "Select Category"
+    decoded_categoryName ?? "Select Category"
   ); // just for showcase
-  const [categoryId, setCategoryId] = useState(
-    decoded_categoryID ? decoded_categoryID : ""
-  ); // real data
+  const [categoryId, setCategoryId] = useState(decoded_categoryID ?? ""); // real data
 
-  const [minQuantity, setMinQuantity] = useState(
-    decoded_minQuantity ? decoded_minQuantity : ""
-  );
-  const [description, setDescription] = useState(
-    decoded_description ? decoded_description : ""
-  );
+  const [minQuantity, setMinQuantity] = useState(decoded_minQuantity ?? "");
+  const [description, setDescription] = useState(decoded_description ?? "");
   const [boxNumber, setBoxNumber] = useState(
     decoded_boxNumber !== "null" ? decoded_boxNumber : ""
   );
@@ -114,20 +82,25 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
   const [showCategories, setShowCategories] = useState(false);
 
   // redux states
-  const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
-  const sideBarOpenWidth = useSelector(
-    (state) => state.sidebar.sideBarOpenWidth
-  );
-  const sideBarCloseWidth = useSelector(
-    (state) => state.sidebar.sideBarCloseWidth
-  );
-  const windowWidth = useSelector((state) => state.global.windowWidth);
+  const {
+    isOpen: isSidebarOpen,
+    sideBarOpenWidth,
+    sideBarCloseWidth,
+  } = useSelector((state) => state.sidebar);
+  const { windowWidth } = useSelector((state) => state.global);
 
   // local variables
   let marginForSidebar = isSidebarOpen ? sideBarOpenWidth : sideBarCloseWidth;
   marginForSidebar = windowWidth < 768 ? 0 : marginForSidebar;
 
   // local functions
+
+  const toggleCategories = () => {
+    setShowCategories(!showCategories);
+  };
+  const toggleBrands = () => {
+    setShowBrands(!showBrands);
+  };
 
   function handleFileUpload(file) {
     setImages([file]);
@@ -192,212 +165,65 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
       <div className="my-8 brands-card rounded-lg border-2 py-2 pb-4 border-gray-200 border-opacity-70  shadow-sm">
         <div className="inputs grid grid-cols-3">
           {/* product name */}
-          <div className="input-item w-full">
-            <label htmlFor="productName" className="input-label">
-              Product Name
-            </label>
-            <input
-              type="text"
-              className="input-box !w-full"
-              id="productName"
-              name="productName"
-              value={productName}
-              onChange={(event) => {
-                setProductName(event.target.value);
-              }}
-            />
-          </div>
+          <InputContainer
+            label={"Product Name"}
+            value={productName}
+            onChange={(event) => {
+              setProductName(event.target.value);
+            }}
+            fullWidth={true}
+          />
 
           {/* part number */}
-          <div className="input-item w-full">
-            <label htmlFor="partNumber" className="input-label">
-              Part Number
-            </label>
-            <input
-              type="text"
-              className="input-box !w-full"
-              id="partNumber"
-              name="partNumber"
-              value={partNumber}
-              onChange={(event) => {
-                setPartNumber(event.target.value);
-              }}
-            />
-          </div>
-
+          <InputContainer
+            label={"Part Number"}
+            value={partNumber}
+            onChange={(event) => {
+              setPartNumber(event.target.value);
+            }}
+            fullWidth={true}
+          />
           {/* brand */}
-          <div className="input-item w-full">
-            <label htmlFor="brand" className="input-label">
-              Brand
-            </label>
-            {/* dropdown */}
-            <div className="relative">
-              <div className=" py-2 px-2 my-1 rounded-md shadow-sm">
-                <button
-                  type="button"
-                  className="flex justify-between w-full gap-x-1.5 rounded-md py-3 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 outline-none"
-                  id="menu-button-sort"
-                  aria-expanded="true"
-                  aria-haspopup="true"
-                  onClick={() => {
-                    setShowBrands(!showBrands);
-                  }}
-                >
-                  <span className="ml-4">{brand}</span>
-                  <svg
-                    className="mr-4 h-5 w-5 text-gray-400"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </button>
-              </div>
-
-              <div
-                className={`${
-                  showBrands ? "block" : "hidden"
-                } transition-all duration-150 ease-out absolute right-0 z-10 w-full origin-top-right rounded-md bg-gray-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
-                role="menu"
-                aria-orientation="vertical"
-                aria-labelledby="menu-button"
-                tabIndex="-1"
-              >
-                <div className="py-1 cursor-pointer" role="none">
-                  {fetchedBrands.map(({ _id, name }) => {
-                    return (
-                      <div
-                        key={_id}
-                        onClick={(event) => {
-                          setBrand(event.target.value);
-                          setBrandId(_id);
-                          setShowBrands(false);
-                        }}
-                      >
-                        <input
-                          className="text-gray-700 block px-4 py-2 text-sm transition-all duration-150 ease-out hover:bg-gray-200 outline-none bg-inherit cursor-pointer w-full"
-                          role="menuitem"
-                          tabIndex="-1"
-                          id="menu-item-0"
-                          value={name}
-                          disabled
-                        />
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          </div>
+          <Dropdown
+            label={"Brand"}
+            toggleDropDown={toggleBrands}
+            value={brand}
+            isOpen={showBrands}
+            options={fetchedBrands}
+            setOption={setBrand}
+            setOptionID={setBrandId}
+          />
 
           {/* categories*/}
-          <div className="input-item w-full">
-            <label htmlFor="brand" className="input-label">
-              Category
-            </label>
-            {/* dropdown */}
-            <div className="relative">
-              <div className=" py-2 px-2 my-1 rounded-md shadow-sm">
-                <button
-                  type="button"
-                  className="flex justify-between w-full gap-x-1.5 rounded-md py-3 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 outline-none"
-                  id="menu-button-sort"
-                  aria-expanded="true"
-                  aria-haspopup="true"
-                  onClick={() => {
-                    setShowCategories(!showCategories);
-                  }}
-                >
-                  <span className="ml-4">{category}</span>
-                  <svg
-                    className="mr-4 h-5 w-5 text-gray-400"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </button>
-              </div>
-
-              <div
-                className={`${
-                  showCategories ? "block" : "hidden"
-                } transition-all duration-150 ease-out absolute right-0 z-10 w-full origin-top-right rounded-md bg-gray-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
-                role="menu"
-                aria-orientation="vertical"
-                aria-labelledby="menu-button"
-                tabIndex="-1"
-              >
-                <div className="py-1 cursor-pointer" role="none">
-                  {fetchedCategories.map(({ _id, name }) => {
-                    return (
-                      <div
-                        key={_id}
-                        onClick={(event) => {
-                          setCategory(event.target.value);
-                          setCategoryId(_id);
-                          setShowCategories(false);
-                        }}
-                      >
-                        <input
-                          className="text-gray-700 block px-4 py-2 text-sm transition-all duration-150 ease-out hover:bg-gray-200 outline-none bg-inherit cursor-pointer w-full"
-                          role="menuitem"
-                          tabIndex="-1"
-                          id="menu-item-0"
-                          value={name}
-                          disabled
-                        />
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          </div>
+          <Dropdown
+            label={"Category"}
+            toggleDropDown={toggleCategories}
+            value={category}
+            isOpen={showCategories}
+            options={fetchedCategories}
+            setOption={setCategory}
+            setOptionID={setCategoryId}
+          />
 
           {/* MRP*/}
-          <div className="input-item w-full">
-            <label htmlFor="mrp" className="input-label">
-              MRP (₹)
-            </label>
-            <input
-              type="text"
-              className="input-box !w-full"
-              id="mrp"
-              name="mrp"
-              value={mrp}
-              onChange={(event) => {
-                setMrp(event.target.value);
-              }}
-            />
-          </div>
+          <InputContainer
+            label={"MRP (₹)"}
+            value={mrp}
+            onChange={(event) => {
+              setMrp(event.target.value);
+            }}
+            fullWidth={true}
+          />
 
           {/* quantity*/}
-          <div className="input-item w-full">
-            <label htmlFor="quantity" className="input-label">
-              Quantity
-            </label>
-            <input
-              type="text"
-              className="input-box !w-full"
-              id="quantity"
-              name="quantity"
-              value={quantity}
-              onChange={(event) => {
-                setQuantity(event.target.value);
-              }}
-            />
-          </div>
+          <InputContainer
+            label={"Quantity"}
+            value={quantity}
+            onChange={(event) => {
+              setQuantity(event.target.value);
+            }}
+            fullWidth={true}
+          />
 
           {/* description*/}
           <div className="input-item w-full col-span-3">
@@ -418,54 +244,33 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
           </div>
 
           {/* minQuantity*/}
-          <div className="input-item w-full">
-            <label htmlFor="minQuantity" className="input-label">
-              Minimum Quantity
-            </label>
-            <input
-              type="text"
-              className="input-box !w-full"
-              id="minQuantity"
-              name="minQuantity"
-              value={minQuantity}
-              onChange={(event) => {
-                setMinQuantity(event.target.value);
-              }}
-            />
-          </div>
+          <InputContainer
+            label={"Minimum Quantity"}
+            value={minQuantity}
+            onChange={(event) => {
+              setMinQuantity(event.target.value);
+            }}
+            fullWidth={true}
+          />
 
           {/* code*/}
-          <div className="input-item w-full">
-            <label htmlFor="code" className="input-label">
-              Code
-            </label>
-            <input
-              type="text"
-              className="input-box !w-full"
-              id="code"
-              name="code"
-              value={code}
-              onChange={(event) => {
-                setCode(event.target.value);
-              }}
-            />
-          </div>
+          <InputContainer
+            label={"Code"}
+            value={code}
+            onChange={(event) => {
+              setCode(event.target.value);
+            }}
+            fullWidth={true}
+          />
           {/* box number*/}
-          <div className="input-item w-full">
-            <label htmlFor="boxNumber" className="input-label">
-              Box Number
-            </label>
-            <input
-              type="text"
-              className="input-box !w-full"
-              id="boxNumber"
-              name="boxNumber"
-              value={boxNumber}
-              onChange={(event) => {
-                setBoxNumber(event.target.value);
-              }}
-            />
-          </div>
+          <InputContainer
+            label={"Box Number"}
+            value={boxNumber}
+            onChange={(event) => {
+              setBoxNumber(event.target.value);
+            }}
+            fullWidth={true}
+          />
 
           <div className="input-item col-span-3">
             <label htmlFor="images" className="input-label">

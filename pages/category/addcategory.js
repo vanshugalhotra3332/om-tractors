@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 // utility funcs
 import { postData } from "../../utils/dbFuncs";
 import { uploadFileToServer, raiseToast } from "@/utils/utilityFuncs";
+import InputContainer from "@/components/FormItems/InputContainer";
 
 const AddCategory = () => {
   const router = useRouter();
@@ -20,14 +21,12 @@ const AddCategory = () => {
   const [categoryImage, setCategoryImage] = useState({ name: image });
 
   // redux states
-  const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
-  const sideBarOpenWidth = useSelector(
-    (state) => state.sidebar.sideBarOpenWidth
-  );
-  const sideBarCloseWidth = useSelector(
-    (state) => state.sidebar.sideBarCloseWidth
-  );
-  const windowWidth = useSelector((state) => state.global.windowWidth);
+  const {
+    isOpen: isSidebarOpen,
+    sideBarOpenWidth,
+    sideBarCloseWidth,
+  } = useSelector((state) => state.sidebar);
+  const { windowWidth } = useSelector((state) => state.global);
 
   // local variables
   let marginForSidebar = isSidebarOpen ? sideBarOpenWidth : sideBarCloseWidth;
@@ -87,21 +86,14 @@ const AddCategory = () => {
         </div>
       </div>
       <div className="my-8 brands-card rounded-lg border-2 py-2 pb-4 border-gray-200 border-opacity-70  shadow-sm">
-        <div className="input-item">
-          <label htmlFor="categoryName" className="input-label">
-            Category Name
-          </label>
-          <input
-            type="text"
-            className="input-box"
-            id="categoryName"
-            name="categoryName"
-            value={categoryName}
-            onChange={(event) => {
-              setCategoryName(event.target.value);
-            }}
-          />
-        </div>
+        <InputContainer
+          label={"Category Name"}
+          value={categoryName}
+          onChange={(event) => {
+            setCategoryName(event.target.value);
+          }}
+        />
+
         <div className="input-item">
           <label htmlFor="categoryImage" className="input-label">
             Category Image

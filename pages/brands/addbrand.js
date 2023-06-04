@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 // utility funcs
 import { postData } from "../../utils/dbFuncs";
 import { uploadFileToServer, raiseToast } from "@/utils/utilityFuncs";
+import InputContainer from "@/components/FormItems/InputContainer";
 
 const AddBrand = () => {
   const router = useRouter();
@@ -20,14 +21,12 @@ const AddBrand = () => {
   const [brandLogo, setBrandLogo] = useState({ name: logo });
 
   // redux states
-  const isSidebarOpen = useSelector((state) => state.sidebar.isOpen);
-  const sideBarOpenWidth = useSelector(
-    (state) => state.sidebar.sideBarOpenWidth
-  );
-  const sideBarCloseWidth = useSelector(
-    (state) => state.sidebar.sideBarCloseWidth
-  );
-  const windowWidth = useSelector((state) => state.global.windowWidth);
+  const {
+    isOpen: isSidebarOpen,
+    sideBarOpenWidth,
+    sideBarCloseWidth,
+  } = useSelector((state) => state.sidebar);
+  const { windowWidth } = useSelector((state) => state.global);
 
   // local variables
   let marginForSidebar = isSidebarOpen ? sideBarOpenWidth : sideBarCloseWidth;
@@ -87,21 +86,13 @@ const AddBrand = () => {
         </div>
       </div>
       <div className="my-8 brands-card rounded-lg border-2 py-2 pb-4 border-gray-200 border-opacity-70  shadow-sm">
-        <div className="input-item">
-          <label htmlFor="brandname" className="input-label">
-            Brand Name
-          </label>
-          <input
-            type="text"
-            className="input-box"
-            id="brandname"
-            name="brandname"
-            value={brandName}
-            onChange={(event) => {
-              setBrandName(event.target.value);
-            }}
-          />
-        </div>
+        <InputContainer
+          label={"Brand Name"}
+          value={brandName}
+          onChange={(event) => {
+            setBrandName(event.target.value);
+          }}
+        />
         <div className="input-item">
           <label htmlFor="brandlogo" className="input-label">
             Brand Logo
