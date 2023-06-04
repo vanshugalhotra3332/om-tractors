@@ -34,20 +34,40 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
     encoded_code,
   } = router.query;
 
-  const _id = decodeURIComponent(encoded__id);
-  const decoded_name = decodeURIComponent(encoded_name);
-  const decoded_partNumber = decodeURIComponent(encoded_partNumber);
-  const decoded_brandID = decodeURIComponent(encoded_brandID);
-  const decoded_brandName = decodeURIComponent(encoded_brandName);
-  const decoded_mrp = decodeURIComponent(encoded_mrp);
-  const decoded_quantity = decodeURIComponent(encoded_quantity);
-  const decoded_categoryID = decodeURIComponent(encoded_categoryID);
-  const decoded_categoryName = decodeURIComponent(encoded_categoryName);
-  const decoded_minQuantity = decodeURIComponent(encoded_minQuantity);
-  const decoded_description = decodeURIComponent(encoded_description);
-  const decoded_boxNumber = decodeURIComponent(encoded_boxNumber);
-  const decoded_code = decodeURIComponent(encoded_code);
-  const decoded_images = decodeURIComponent(encoded_images);
+  const _id = decodeURIComponent(encoded__id ? encoded__id : "");
+  const decoded_name = decodeURIComponent(encoded_name ? encoded_name : "");
+  const decoded_partNumber = decodeURIComponent(
+    encoded_partNumber ? encoded_partNumber : ""
+  );
+  const decoded_brandID = decodeURIComponent(
+    encoded_brandID ? encoded_brandID : ""
+  );
+  const decoded_brandName = decodeURIComponent(
+    encoded_brandName ? encoded_brandName : ""
+  );
+  const decoded_mrp = decodeURIComponent(encoded_mrp ? encoded_mrp : "");
+  const decoded_quantity = decodeURIComponent(
+    encoded_quantity ? encoded_quantity : ""
+  );
+  const decoded_categoryID = decodeURIComponent(
+    encoded_categoryID ? encoded_categoryID : ""
+  );
+  const decoded_categoryName = decodeURIComponent(
+    encoded_categoryName ? encoded_categoryName : ""
+  );
+  const decoded_minQuantity = decodeURIComponent(
+    encoded_minQuantity ? encoded_minQuantity : ""
+  );
+  const decoded_description = decodeURIComponent(
+    encoded_description ? encoded_description : ""
+  );
+  const decoded_boxNumber = decodeURIComponent(
+    encoded_boxNumber ? encoded_boxNumber : ""
+  );
+  const decoded_code = decodeURIComponent(encoded_code ? encoded_code : "");
+  const decoded_images = decodeURIComponent(
+    encoded_images ? encoded_images : ""
+  );
 
   // local states
   const [productName, setProductName] = useState(

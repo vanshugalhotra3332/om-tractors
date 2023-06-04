@@ -8,13 +8,37 @@ const handler = async (req, res) => {
     try {
       const { search } = req.query;
 
-      // Create a search query using a regular expression
-      const searchQuery = search
+      const brandQuery = search
         ? { name: { $regex: search, $options: "i" } }
         : {};
 
+      // Fetch brand based on the search query for brand name
+      const brands = await Brand.find(brandQuery);
+      const brandIds = brands.map((brand) => brand._id);
+
+      const categoryQuery = search
+        ? { name: { $regex: search, $options: "i" } }
+        : {};
+
+      // Fetch category based on the search query for category name
+      const categories = await Category.find(categoryQuery);
+      const categoryIds = categories.map((category) => category._id);
+
+      // Create a search query for products using a regular expression
+      const productSearchQuery = search
+        ? {
+            $or: [
+              { name: { $regex: search, $options: "i" } },
+              { partNumber: { $regex: search, $options: "i" } },
+              { description: { $regex: search, $options: "i" } },
+              { brand: { $in: brandIds } },
+              { category: { $in: categoryIds } },
+            ],
+          }
+        : {};
+
       // Fetch brands based on the search query
-      const products = await Product.find(searchQuery)
+      const products = await Product.find(productSearchQuery)
         .populate("brand", "name")
         .populate("category", "name");
 

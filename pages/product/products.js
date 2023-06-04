@@ -215,6 +215,9 @@ const Products = ({ fetchedProducts }) => {
                       Quantity
                     </th>
                     <th scope="col" className="px-6 py-3">
+                      Description
+                    </th>
+                    <th scope="col" className="px-6 py-3">
                       Code
                     </th>
                     <th scope="col" className="px-6 py-3">
@@ -223,97 +226,99 @@ const Products = ({ fetchedProducts }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {products?.map(
-                    ({
-                      _id,
-                      name,
-                      partNumber,
-                      brand,
-                      mrp,
-                      quantity,
-                      category,
-                      minQuantity,
-                      description,
-                      boxNumber,
-                      images,
-                      code,
-                    }) => {
-                      return (
-                        <tr
-                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                          key={_id}
-                        >
-                          <td className="w-4 p-4">
-                            <div className="flex items-center">
-                              <input
-                                id="checkbox-table-search-1"
-                                type="checkbox"
-                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                              />
-                              <label
-                                htmlFor="checkbox-table-search-1"
-                                className="sr-only"
-                              >
-                                checkbox
-                              </label>
-                            </div>
-                          </td>
-                          <th
-                            scope="row"
-                            className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
+                  {products.length &&
+                    products.map(
+                      ({
+                        _id,
+                        name,
+                        partNumber,
+                        brand,
+                        mrp,
+                        quantity,
+                        category,
+                        minQuantity,
+                        description,
+                        boxNumber,
+                        images,
+                        code,
+                      }) => {
+                        return (
+                          <tr
+                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                            key={_id}
                           >
-                            <Image
-                              alt="Upload"
-                              className="w-16 h-16"
-                              layout="fixed"
-                              width={58}
-                              height={58}
-                              objectFit="cover"
-                              src={`/assets/images/products/${images[0]}`}
-                            />
-                          </th>
-                          <td className="px-6 py-4">{name}</td>
-                          <td className="px-6 py-4">{partNumber}</td>
-                          <td className="px-6 py-4">{mrp}</td>
-                          <td className="px-6 py-4">{brand.name}</td>
-                          <td className="px-6 py-4">{category.name}</td>
-                          <td className="px-6 py-4">{quantity}</td>
-                          <td className="px-6 py-4">{code}</td>
-                          <td className="px-6 py-4 md:space-x-4 space-x-0 space-y-2">
-                            <div
-                              className="inline-block text-gray-900 up-icon hover:text-black"
-                              onClick={() => {
-                                handleUpdate(
-                                  _id,
-                                  name,
-                                  partNumber,
-                                  brand,
-                                  mrp,
-                                  quantity,
-                                  category,
-                                  minQuantity,
-                                  description,
-                                  boxNumber,
-                                  images,
-                                  code
-                                );
-                              }}
+                            <td className="w-4 p-4">
+                              <div className="flex items-center">
+                                <input
+                                  id="checkbox-table-search-1"
+                                  type="checkbox"
+                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                />
+                                <label
+                                  htmlFor="checkbox-table-search-1"
+                                  className="sr-only"
+                                >
+                                  checkbox
+                                </label>
+                              </div>
+                            </td>
+                            <th
+                              scope="row"
+                              className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
                             >
-                              <BorderColorOutlinedIcon className="normal-icon" />
-                            </div>
-                            <div className="inline-block text-red-500 up-icon hover:text-red-700">
-                              <DeleteOutlineOutlinedIcon
-                                className="normal-icon"
-                                onClick={() => {
-                                  handleDelete(_id);
-                                }}
+                              <Image
+                                alt="Upload"
+                                className="w-16 h-16"
+                                layout="fixed"
+                                width={58}
+                                height={58}
+                                objectFit="cover"
+                                src={`/assets/images/products/${images[0]}`}
                               />
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    }
-                  )}
+                            </th>
+                            <td className="px-6 py-4">{name}</td>
+                            <td className="px-6 py-4">{partNumber}</td>
+                            <td className="px-6 py-4">{mrp}</td>
+                            <td className="px-6 py-4">{brand.name}</td>
+                            <td className="px-6 py-4">{category.name}</td>
+                            <td className="px-6 py-4">{quantity}</td>
+                            <td className="px-6 py-4">{description}</td>
+                            <td className="px-6 py-4">{code}</td>
+                            <td className="px-6 py-4 md:space-x-4 space-x-0 space-y-2">
+                              <div
+                                className="inline-block text-gray-900 up-icon hover:text-black"
+                                onClick={() => {
+                                  handleUpdate(
+                                    _id,
+                                    name,
+                                    partNumber,
+                                    brand,
+                                    mrp,
+                                    quantity,
+                                    category,
+                                    minQuantity,
+                                    description,
+                                    boxNumber,
+                                    images,
+                                    code
+                                  );
+                                }}
+                              >
+                                <BorderColorOutlinedIcon className="normal-icon" />
+                              </div>
+                              <div className="inline-block text-red-500 up-icon hover:text-red-700">
+                                <DeleteOutlineOutlinedIcon
+                                  className="normal-icon"
+                                  onClick={() => {
+                                    handleDelete(_id);
+                                  }}
+                                />
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      }
+                    )}
                 </tbody>
               </table>
             </div>
