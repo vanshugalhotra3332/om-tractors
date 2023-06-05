@@ -11,7 +11,7 @@ import mongoose from "mongoose";
 import Product from "@/models/Product";
 
 // Icons import
-import { Add } from "@mui/icons-material";
+import AddIcon from "@mui/icons-material/Add";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
@@ -141,7 +141,7 @@ const Products = ({ fetchedProducts }) => {
           </p>
         </div>
         <Link className="right-btn icon-btn" href={"/product/addproduct"}>
-          <Add className="w-6 h-6 text-white font-medium" />
+          <AddIcon className="w-6 h-6 text-white font-medium" />
           <span className="text-white font-medium px-2 text-lg">
             Add Product
           </span>
