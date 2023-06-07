@@ -6,6 +6,9 @@ import Image from "next/image";
 import Product from "@/models/Product";
 import mongoose from "mongoose";
 
+import InnerImageZoom from "react-inner-image-zoom";
+import "react-inner-image-zoom/lib/InnerImageZoom/styles.css";
+
 const ProductDetails = ({ fetchedProduct }) => {
   const {
     name,
@@ -46,7 +49,7 @@ const ProductDetails = ({ fetchedProduct }) => {
     },
     {
       title: "Brand",
-      value: brand.name,
+      value: brand ? brand.name : "",
     },
     {
       title: "MRP",
@@ -95,8 +98,8 @@ const ProductDetails = ({ fetchedProduct }) => {
         </div>
       </div>
       <div className="my-8 brands-card rounded-lg border border-gray-200 border-opacity-70 pb-8 shadow-sm">
-        <div className="product-details outline-none py-8 px-6 border-none flex">
-          <ul className="w-2/3 border-b">
+        <div className="product-details outline-none py-8 px-6 border-none flex md:flex-row flex-col">
+          <ul className="md:w-2/3 border-b">
             {product_fields.map(({ title, value }, index) => (
               <li
                 className={`product-details-item ${
@@ -109,17 +112,16 @@ const ProductDetails = ({ fetchedProduct }) => {
               </li>
             ))}
           </ul>
-
-          <div className="product-image relative w-1/3 mx-4 flex justify-center rounded-lg border border-gray-200 border-opacity-70 shadow-sm h-[250px]">
-            <Image
-              alt="Product Image"
-              className=""
-              layout="fixed"
-              objectFit="cover"
-              width={150}
-              height={150}
-              src={`/assets/Images/products/${images[0]}`}
-            />
+          <div className="product-image relative md:w-1/3 mx-4 flex justify-center rounded-lg border border-gray-200 border-opacity-70 shadow-sm cursor-pointer">
+            <div className="mx-2 mt-8">
+              <InnerImageZoom
+                src={`/assets/Images/products/${images ?? images[0]}`}
+                zoomSrc={`/assets/Images/products/${images ?? images[0]}`}
+                zoomScale={1.5} // Adjust the zoom scale as needed
+                zoomType="hover" // or "click" to trigger zoom on click
+                width={250}
+              />
+            </div>
           </div>
         </div>
       </div>
