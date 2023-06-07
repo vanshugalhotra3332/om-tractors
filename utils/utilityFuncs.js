@@ -1,5 +1,5 @@
 // toastify
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export async function uploadFileToServer(file, fileType) {
   const formData = new FormData();

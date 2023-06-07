@@ -89,6 +89,7 @@ const Products = ({ fetchedProducts }) => {
     brand,
     mrp,
     quantity,
+    unit,
     category,
     minQuantity,
     description,
@@ -104,6 +105,7 @@ const Products = ({ fetchedProducts }) => {
       brandName: brand.name,
       mrp,
       quantity,
+      unit,
       categoryID: category._id,
       categoryName: category.name,
       minQuantity,
@@ -180,20 +182,8 @@ const Products = ({ fetchedProducts }) => {
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="p-4">
-                      <div className="flex items-center">
-                        <input
-                          id="checkbox-all-search"
-                          type="checkbox"
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                        />
-                        <label
-                          htmlFor="checkbox-all-search"
-                          className="sr-only"
-                        >
-                          checkbox
-                        </label>
-                      </div>
+                    <th scope="col" className="px-6 py-3">
+                      Sr No.
                     </th>
                     <th scope="col" className="px-6 py-3">
                       Image
@@ -217,6 +207,9 @@ const Products = ({ fetchedProducts }) => {
                       Quantity
                     </th>
                     <th scope="col" className="px-6 py-3">
+                      Unit
+                    </th>
+                    <th scope="col" className="px-6 py-3">
                       Description
                     </th>
                     <th scope="col" className="px-6 py-3">
@@ -230,39 +223,32 @@ const Products = ({ fetchedProducts }) => {
                 <tbody>
                   {products.length &&
                     products.map(
-                      ({
-                        _id,
-                        name,
-                        partNumber,
-                        brand,
-                        mrp,
-                        quantity,
-                        category,
-                        minQuantity,
-                        description,
-                        boxNumber,
-                        images,
-                        code,
-                      }) => {
+                      (
+                        {
+                          _id,
+                          name,
+                          partNumber,
+                          brand,
+                          mrp,
+                          quantity,
+                          unit,
+                          category,
+                          minQuantity,
+                          description,
+                          boxNumber,
+                          images,
+                          code,
+                        },
+                        index
+                      ) => {
                         return (
                           <tr
                             className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                             key={_id}
                           >
-                            <td className="w-4 p-4">
-                              <div className="flex items-center">
-                                <input
-                                  id="checkbox-table-search-1"
-                                  type="checkbox"
-                                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                />
-                                <label
-                                  htmlFor="checkbox-table-search-1"
-                                  className="sr-only"
-                                >
-                                  checkbox
-                                </label>
-                              </div>
+                            {" "}
+                            <td className="px-6 py-4 text-gray-900 font-semibold">
+                              {index + 1}.)
                             </td>
                             <th
                               scope="row"
@@ -284,12 +270,12 @@ const Products = ({ fetchedProducts }) => {
                             <td className="px-6 py-4">{brand.name}</td>
                             <td className="px-6 py-4">{category.name}</td>
                             <td className="px-6 py-4">{quantity}</td>
+                            <td className="px-6 py-4">{unit}</td>
                             <td className="px-6 py-4">
                               {description.length > 50
                                 ? `${description.slice(0, 50)}...`
                                 : description}
                             </td>
-
                             <td className="px-6 py-4">{code}</td>
                             <td className="px-6 py-4 md:space-x-4 space-x-0 space-y-2">
                               <div
@@ -302,6 +288,7 @@ const Products = ({ fetchedProducts }) => {
                                     brand,
                                     mrp,
                                     quantity,
+                                    unit,
                                     category,
                                     minQuantity,
                                     description,

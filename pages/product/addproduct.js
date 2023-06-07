@@ -13,7 +13,7 @@ import Category from "@/models/Category";
 import { postData } from "../../utils/dbFuncs";
 import { uploadFileToServer, raiseToast } from "@/utils/utilityFuncs";
 import InputContainer from "@/components/FormItems/InputContainer";
-import Dropdown from "@/components/FormItems/Dropdown";
+import { DropdownForId, Dropdown } from "@/components/FormItems/Dropdown";
 
 const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
   const router = useRouter();
@@ -27,6 +27,7 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
     encoded_brandName,
     encoded_mrp,
     encoded_quantity,
+    encoded_unit,
     encoded_categoryID,
     encoded_categoryName,
     encoded_minQuantity,
@@ -43,6 +44,7 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
   const decoded_brandName = decodeURIComponent(encoded_brandName ?? "");
   const decoded_mrp = decodeURIComponent(encoded_mrp ?? "");
   const decoded_quantity = decodeURIComponent(encoded_quantity ?? "");
+  const decoded_unit = decodeURIComponent(encoded_unit ?? "PC");
   const decoded_categoryID = decodeURIComponent(encoded_categoryID ?? "");
   const decoded_categoryName = decodeURIComponent(encoded_categoryName ?? "");
   const decoded_minQuantity = decodeURIComponent(encoded_minQuantity ?? "");
@@ -51,11 +53,16 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
   const decoded_code = decodeURIComponent(encoded_code ?? "");
   const decoded_images = decodeURIComponent(encoded_images ?? "");
 
+  // local variables
+  const units = ["PC", "Box"];
+
   // local states
   const [productName, setProductName] = useState(decoded_name ?? "");
   const [partNumber, setPartNumber] = useState(decoded_partNumber ?? "");
 
-  const [brand, setBrand] = useState(decoded_brandName ?? "Select Brand"); // just for showCase
+  const [brand, setBrand] = useState(
+    decoded_brandName !== "" ? decoded_brandName : "Select Brand"
+  ); // just for showCase
   const [brandId, setBrandId] = useState(decoded_brandID ?? ""); //  real data
   const [mrp, setMrp] = useState(decoded_mrp !== "null" ? decoded_mrp : "");
 
@@ -63,8 +70,10 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
     decoded_quantity !== "null" ? decoded_quantity : ""
   );
 
+  const [unit, setUnit] = useState(decoded_unit);
+
   const [category, setCategory] = useState(
-    decoded_categoryName ?? "Select Category"
+    decoded_categoryName !== "" ? decoded_categoryName : "Select Category"
   ); // just for showcase
   const [categoryId, setCategoryId] = useState(decoded_categoryID ?? ""); // real data
 
@@ -80,6 +89,7 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
 
   const [showBrands, setShowBrands] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
+  const [showUnit, setShowUnit] = useState(false);
 
   // redux states
   const {
@@ -102,6 +112,10 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
     setShowBrands(!showBrands);
   };
 
+  const toggleUnits = () => {
+    setShowUnit(!showUnit);
+  };
+
   function handleFileUpload(file) {
     setImages([file]);
     uploadFileToServer(file, "products");
@@ -117,6 +131,7 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
         brand: brandId,
         mrp: mrp ? Number(mrp) : null,
         quantity: quantity ? Number(quantity) : null,
+        unit: unit,
         category: categoryId,
         minQuantity: Number(minQuantity),
         description: description ? description : "",
@@ -134,7 +149,6 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
         api = "/api/product/updateproduct";
         data._id = _id;
       }
-
       const response = await postData(METHOD, data, api);
       if (response.success) {
         let message = _id
@@ -184,7 +198,7 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
             fullWidth={true}
           />
           {/* brand */}
-          <Dropdown
+          <DropdownForId
             label={"Brand"}
             toggleDropDown={toggleBrands}
             value={brand}
@@ -195,7 +209,7 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
           />
 
           {/* categories*/}
-          <Dropdown
+          <DropdownForId
             label={"Category"}
             toggleDropDown={toggleCategories}
             value={category}
@@ -223,6 +237,16 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
               setQuantity(event.target.value);
             }}
             fullWidth={true}
+          />
+
+          {/* Unit */}
+          <Dropdown
+            label={"Unit"}
+            toggleDropDown={toggleUnits}
+            value={unit}
+            isOpen={showUnit}
+            options={units}
+            setOption={setUnit}
           />
 
           {/* description*/}
