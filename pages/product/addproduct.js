@@ -177,80 +177,92 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
         </div>
       </div>
       <div className="my-8 brands-card rounded-lg border-2 py-2 pb-4 border-gray-200 border-opacity-70  shadow-sm">
-        <div className="inputs grid grid-cols-3">
+        <div className="inputs grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1">
           {/* product name */}
-          <InputContainer
-            label={"Product Name"}
-            value={productName}
-            onChange={(event) => {
-              setProductName(event.target.value);
-            }}
-            fullWidth={true}
-          />
+          <div className="lg:col-span-2">
+            <InputContainer
+              label={"Product Name"}
+              value={productName}
+              onChange={(event) => {
+                setProductName(event.target.value);
+              }}
+              fullWidth={true}
+            />
+          </div>
 
           {/* part number */}
-          <InputContainer
-            label={"Part Number"}
-            value={partNumber}
-            onChange={(event) => {
-              setPartNumber(event.target.value);
-            }}
-            fullWidth={true}
-          />
+          <div className="lg:col-span-1">
+            <InputContainer
+              label={"Part Number"}
+              value={partNumber}
+              onChange={(event) => {
+                setPartNumber(event.target.value);
+              }}
+              fullWidth={true}
+            />
+          </div>
           {/* brand */}
-          <DropdownForId
-            label={"Brand"}
-            toggleDropDown={toggleBrands}
-            value={brand}
-            isOpen={showBrands}
-            options={fetchedBrands}
-            setOption={setBrand}
-            setOptionID={setBrandId}
-          />
+          <div className="lg:col-span-1">
+            <DropdownForId
+              label={"Brand"}
+              toggleDropDown={toggleBrands}
+              value={brand}
+              isOpen={showBrands}
+              options={fetchedBrands}
+              setOption={setBrand}
+              setOptionID={setBrandId}
+            />
+          </div>
+          <div className="lg:col-span-1">
+            {/* categories*/}
+            <DropdownForId
+              label={"Category"}
+              toggleDropDown={toggleCategories}
+              value={category}
+              isOpen={showCategories}
+              options={fetchedCategories}
+              setOption={setCategory}
+              setOptionID={setCategoryId}
+            />
+          </div>
 
-          {/* categories*/}
-          <DropdownForId
-            label={"Category"}
-            toggleDropDown={toggleCategories}
-            value={category}
-            isOpen={showCategories}
-            options={fetchedCategories}
-            setOption={setCategory}
-            setOptionID={setCategoryId}
-          />
+          <div className="lg:col-span-1">
+            {/* MRP*/}
+            <InputContainer
+              label={"MRP (₹)"}
+              value={mrp}
+              onChange={(event) => {
+                setMrp(event.target.value);
+              }}
+              fullWidth={true}
+            />
+          </div>
 
-          {/* MRP*/}
-          <InputContainer
-            label={"MRP (₹)"}
-            value={mrp}
-            onChange={(event) => {
-              setMrp(event.target.value);
-            }}
-            fullWidth={true}
-          />
-
-          {/* quantity*/}
-          <InputContainer
-            label={"Quantity"}
-            value={quantity}
-            onChange={(event) => {
-              setQuantity(event.target.value);
-            }}
-            fullWidth={true}
-          />
-
-          {/* Unit */}
-          <Dropdown
-            label={"Unit"}
-            toggleDropDown={toggleUnits}
-            value={unit}
-            isOpen={showUnit}
-            options={units}
-            setOption={setUnit}
-          />
+          <div className="lg:col-span-1">
+            {/* quantity*/}
+            <InputContainer
+              label={"Quantity"}
+              value={quantity}
+              onChange={(event) => {
+                setQuantity(event.target.value);
+              }}
+              fullWidth={true}
+            />
+          </div>
+          <div className="lg:col-span-1">
+            {/* Unit */}
+            <Dropdown
+              label={"Unit"}
+              toggleDropDown={toggleUnits}
+              value={unit}
+              isOpen={showUnit}
+              options={units}
+              setOption={setUnit}
+            />
+          </div>
 
           {/* description*/}
-          <div className="input-item w-full col-span-3">
+          <div className="input-item w-full lg:col-span-4 md:col-span-2">
             <label htmlFor="description" className="input-label">
               Description
             </label>
@@ -268,35 +280,41 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
           </div>
 
           {/* minQuantity*/}
-          <InputContainer
-            label={"Minimum Quantity"}
-            value={minQuantity}
-            onChange={(event) => {
-              setMinQuantity(event.target.value);
-            }}
-            fullWidth={true}
-          />
+          <div className="lg:col-span-1">
+            <InputContainer
+              label={"Minimum Quantity"}
+              value={minQuantity}
+              onChange={(event) => {
+                setMinQuantity(event.target.value);
+              }}
+              fullWidth={true}
+            />
+          </div>
 
           {/* code*/}
-          <InputContainer
-            label={"Code"}
-            value={code}
-            onChange={(event) => {
-              setCode(event.target.value);
-            }}
-            fullWidth={true}
-          />
+          <div className="lg:col-span-2">
+            <InputContainer
+              label={"Code"}
+              value={code}
+              onChange={(event) => {
+                setCode(event.target.value);
+              }}
+              fullWidth={true}
+            />
+          </div>
           {/* box number*/}
-          <InputContainer
-            label={"Box Number"}
-            value={boxNumber}
-            onChange={(event) => {
-              setBoxNumber(event.target.value);
-            }}
-            fullWidth={true}
-          />
+          <div className="lg:col-span-1">
+            <InputContainer
+              label={"Box Number"}
+              value={boxNumber}
+              onChange={(event) => {
+                setBoxNumber(event.target.value);
+              }}
+              fullWidth={true}
+            />
+          </div>
 
-          <div className="input-item col-span-3">
+          <div className="input-item lg:col-span-4 md:col-span-2">
             <label htmlFor="images" className="input-label">
               Product Images
             </label>

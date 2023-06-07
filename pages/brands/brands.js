@@ -157,13 +157,13 @@ const Brands = ({ fetchedBrands }) => {
                         </label>
                       </div>
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="table-heading">
                       Logo
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="table-heading">
                       Name
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="table-heading">
                       Action
                     </th>
                   </tr>
@@ -192,7 +192,7 @@ const Brands = ({ fetchedBrands }) => {
                         </td>
                         <th
                           scope="row"
-                          className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
+                          className="flex items-center table-data text-gray-900 whitespace-nowrap dark:text-white"
                         >
                           <Image
                             alt="Upload"
@@ -204,8 +204,8 @@ const Brands = ({ fetchedBrands }) => {
                             src={`/assets/images/brands/${logo}`}
                           />
                         </th>
-                        <td className="px-6 py-4">{name}</td>
-                        <td className="px-6 py-4 md:space-x-4 space-x-0 space-y-2">
+                        <td className="table-data">{name}</td>
+                        <td className="table-data md:space-x-4 space-x-0 space-y-2">
                           <div
                             className="inline-block text-gray-900 up-icon hover:text-black"
                             onClick={() => {

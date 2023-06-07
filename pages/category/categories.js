@@ -11,7 +11,7 @@ import mongoose from "mongoose";
 import Category from "@/models/Category";
 
 // Icons import
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
@@ -43,9 +43,12 @@ const Categories = ({ fetchedCategories }) => {
   }, [searchQuery]);
 
   // redux states
-  const { isOpen: isSidebarOpen, sideBarOpenWidth, sideBarCloseWidth } = useSelector(state => state.sidebar);
-  const { windowWidth } = useSelector(state => state.global);
-  
+  const {
+    isOpen: isSidebarOpen,
+    sideBarOpenWidth,
+    sideBarCloseWidth,
+  } = useSelector((state) => state.sidebar);
+  const { windowWidth } = useSelector((state) => state.global);
 
   // local variables
   const marginForSidebar = useMemo(() => {
@@ -157,13 +160,13 @@ const Categories = ({ fetchedCategories }) => {
                         </label>
                       </div>
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="table-heading">
                       Image
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="table-heading">
                       Name
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="table-heading">
                       Action
                     </th>
                   </tr>
@@ -192,7 +195,7 @@ const Categories = ({ fetchedCategories }) => {
                         </td>
                         <th
                           scope="row"
-                          className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
+                          className="flex items-center table-data text-gray-900 whitespace-nowrap dark:text-white"
                         >
                           <Image
                             alt="Upload"
@@ -204,8 +207,8 @@ const Categories = ({ fetchedCategories }) => {
                             src={`/assets/images/category/${image}`}
                           />
                         </th>
-                        <td className="px-6 py-4">{name}</td>
-                        <td className="px-6 py-4 md:space-x-4 space-x-0 space-y-2">
+                        <td className="table-data">{name}</td>
+                        <td className="table-data md:space-x-4 space-x-0 space-y-2">
                           <div
                             className="inline-block text-gray-900 up-icon hover:text-black"
                             onClick={() => {

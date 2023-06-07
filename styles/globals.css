@@ -95,4 +95,12 @@
   }
 
   /* table */
+
+  .table-heading {
+    @apply px-6 py-3;
+  }
+
+  .table-data {
+    @apply px-6 py-4 text-gray-800 leading-snug;
+  }
 }

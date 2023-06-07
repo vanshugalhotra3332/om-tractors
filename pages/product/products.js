@@ -182,40 +182,40 @@ const Products = ({ fetchedProducts }) => {
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="table-heading">
                       Sr No.
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="table-heading">
                       Image
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="table-heading">
                       Name
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="table-heading">
                       Part Number
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="table-heading">
                       MRP
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="table-heading">
                       Brand
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="table-heading">
                       Category
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="table-heading">
                       Quantity
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="table-heading">
                       Unit
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="table-heading">
                       Description
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="table-heading">
                       Code
                     </th>
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" className="table-heading">
                       Action
                     </th>
                   </tr>
@@ -247,12 +247,12 @@ const Products = ({ fetchedProducts }) => {
                             key={_id}
                           >
                             {" "}
-                            <td className="px-6 py-4 text-gray-900 font-semibold">
+                            <td className="table-data text-gray-900 font-semibold">
                               {index + 1}.)
                             </td>
                             <th
                               scope="row"
-                              className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
+                              className="flex items-center table-data text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               <Image
                                 alt="Upload"
@@ -264,20 +264,20 @@ const Products = ({ fetchedProducts }) => {
                                 src={`/assets/images/products/${images[0]}`}
                               />
                             </th>
-                            <td className="px-6 py-4">{name}</td>
-                            <td className="px-6 py-4">{partNumber}</td>
-                            <td className="px-6 py-4">{mrp}</td>
-                            <td className="px-6 py-4">{brand.name}</td>
-                            <td className="px-6 py-4">{category.name}</td>
-                            <td className="px-6 py-4">{quantity}</td>
-                            <td className="px-6 py-4">{unit}</td>
-                            <td className="px-6 py-4">
+                            <td className="table-data">{name}</td>
+                            <td className="table-data">{partNumber}</td>
+                            <td className="table-data">{mrp}</td>
+                            <td className="table-data">{brand.name}</td>
+                            <td className="table-data">{category.name}</td>
+                            <td className="table-data">{quantity}</td>
+                            <td className="table-data">{unit}</td>
+                            <td className="table-data">
                               {description.length > 50
                                 ? `${description.slice(0, 50)}...`
                                 : description}
                             </td>
-                            <td className="px-6 py-4">{code}</td>
-                            <td className="px-6 py-4 md:space-x-4 space-x-0 space-y-2">
+                            <td className="table-data">{code}</td>
+                            <td className="table-data md:space-x-4 space-x-0 space-y-2">
                               <div
                                 className="inline-block text-gray-900 up-icon hover:text-black"
                                 onClick={() => {
