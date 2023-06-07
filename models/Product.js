@@ -17,8 +17,8 @@ const ProductSchema = new mongoose.Schema(
       ref: "Brand",
       required: true,
     },
-    mrp: { type: Number, default: null },
-    quantity: { type: Number, default: null },
+    mrp: { type: Number, default: "" },
+    quantity: { type: Number, default: "" },
     unit: { type: String, default: "PC" },
     category: {
       type: mongoose.Schema.Types.ObjectId,

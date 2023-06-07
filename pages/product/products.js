@@ -18,6 +18,7 @@ import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 import FormatListBulletedOutlinedIcon from "@mui/icons-material/FormatListBulletedOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 
 // uitility funcs
 import { fetchData } from "@/utils/dbFuncs";
@@ -276,9 +277,19 @@ const Products = ({ fetchedProducts }) => {
                                 : description}
                             </td>
                             <td className="table-data">{code}</td>
-                            <td className="table-data md:space-x-4 space-x-0 space-y-2">
+                            <td className="table-data space-y-2">
                               <div
-                                className="inline-block text-gray-900 up-icon hover:text-black"
+                                className="action-icon"
+                                onClick={() => {
+                                  router.push(
+                                    `/product/productdetails?_id=${_id}`
+                                  );
+                                }}
+                              >
+                                <RemoveRedEyeOutlinedIcon className="normal-icon" />
+                              </div>
+                              <div
+                                className="action-icon"
                                 onClick={() => {
                                   handleUpdate(
                                     _id,

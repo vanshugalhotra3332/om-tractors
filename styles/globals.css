@@ -103,4 +103,19 @@
   .table-data {
     @apply px-6 py-4 text-gray-800 leading-snug capitalize;
   }
+
+  .action-icon {
+    @apply inline-block text-gray-900 up-icon hover:text-black;
+  }
+
+  /* product details */
+  .product-details-item {
+    @apply border-[#D8D8D8] flex flex-wrap border !border-b-0;
+  }
+  .product-details-title {
+    @apply text-sm font-medium w-1/3 p-3 border-r-[#D8D8D8] border-r;
+  }
+  .product-details-value {
+    @apply text-sm font-medium p-3 w-2/3 capitalize;
+  }
 }

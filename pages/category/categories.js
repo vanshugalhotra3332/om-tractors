@@ -210,7 +210,7 @@ const Categories = ({ fetchedCategories }) => {
                         <td className="table-data">{name}</td>
                         <td className="table-data md:space-x-4 space-x-0 space-y-2">
                           <div
-                            className="inline-block text-gray-900 up-icon hover:text-black"
+                            className="action-icon"
                             onClick={() => {
                               handleUpdate(_id, name, image);
                             }}
