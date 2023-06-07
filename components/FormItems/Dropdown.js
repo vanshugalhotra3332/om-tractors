@@ -64,7 +64,7 @@ export const DropdownForId = ({
                   }}
                 >
                   <input
-                    className="text-gray-700 block px-4 py-2 text-sm transition-all duration-150 ease-out hover:bg-gray-200 outline-none bg-inherit cursor-pointer w-full"
+                    className="text-gray-700 block px-4 py-2 text-sm transition-all duration-150 ease-out hover:bg-gray-200 outline-none bg-inherit cursor-pointer w-full capitalize"
                     role="menuitem"
                     tabIndex="-1"
                     id="menu-item-0"
@@ -126,7 +126,7 @@ export const Dropdown = ({
         <div
           className={`${
             isOpen ? "block" : "hidden"
-          } transition-all duration-150 ease-out absolute right-0 z-10 w-full origin-top-right rounded-md bg-gray-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
+          } transition-all duration-150 ease-out absolute right-0 z-10 w-full origin-top-right rounded-md bg-gray-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none capitalize `}
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"

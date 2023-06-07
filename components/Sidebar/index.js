@@ -28,9 +28,17 @@ import BrandingWatermarkOutlinedIcon from "@mui/icons-material/BrandingWatermark
 const SubMenu = ({ name, MenuIcon, url }) => {
   const router = useRouter();
 
+  const windowWidth = useSelector((state) => state.global.windowWidth);
   const isActiveLink = (pathname) => {
     return router.asPath === pathname;
   };
+
+  const linkClick = () => {
+    if (windowWidth < "768") {
+      dispatch(toggle());
+    }
+  };
+
   return (
     <li>
       <Link
@@ -38,6 +46,7 @@ const SubMenu = ({ name, MenuIcon, url }) => {
         className={`sidebar-nav-link ${
           isActiveLink(url) ? "sidebar-nav-link-active" : ""
         }`}
+        onClick={linkClick}
       >
         <MenuIcon className="h-6 w-6 min-w-max" />
         <p className="sidebar-nav-link-p">{name}</p>
@@ -56,19 +65,17 @@ const Sidebar = () => {
   // redux
   const dispatch = useDispatch();
 
-  // redux states
-  const sideBarOpenWidth = useSelector(
-    (state) => state.sidebar.sideBarOpenWidth
-  );
-  const sideBarCloseWidth = useSelector(
-    (state) => state.sidebar.sideBarCloseWidth
-  );
+  // local states
 
-  const isOpen = useSelector((state) => state.sidebar.isOpen);
-  const image = useSelector((state) => state.sidebar.image);
-  const showProductsSubMenu = useSelector(
-    (state) => state.sidebar.showProductsSubMenu
-  );
+  // redux states
+
+  const {
+    isOpen,
+    sideBarOpenWidth,
+    sideBarCloseWidth,
+    image,
+    showProductsSubMenu,
+  } = useSelector((state) => state.sidebar);
 
   const windowWidth = useSelector((state) => state.global.windowWidth);
 
@@ -91,7 +98,11 @@ const Sidebar = () => {
 
   // Local functions
 
-  const linkClick = (event) => {};
+  const linkClick = () => {
+    if (windowWidth < "768") {
+      dispatch(toggle());
+    }
+  };
 
   const productsSubMenuList = [
     {
@@ -196,7 +207,7 @@ const Sidebar = () => {
                         }
                   }
                   className={`flex h-0 flex-col pl-14 text-[0.8rem] font-normal overflow-hidden ${
-                    isOpen ? "" : "hidden"
+                    isOpen ? "" : "!hidden"
                   }`}
                 >
                   {productsSubMenuList.map(({ name, icon, url }) => {

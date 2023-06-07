@@ -97,10 +97,10 @@
   /* table */
 
   .table-heading {
-    @apply px-6 py-3;
+    @apply px-6 py-3 uppercase;
   }
 
   .table-data {
-    @apply px-6 py-4 text-gray-800 leading-snug;
+    @apply px-6 py-4 text-gray-800 leading-snug capitalize;
   }
 }

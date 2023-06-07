@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isOpen: true,
+  isOpen: false,
   sideBarOpenWidth: "20vw",
   sideBarCloseWidth: "4vw",
   image: "/assets/Images/background/eazy.jpg",
