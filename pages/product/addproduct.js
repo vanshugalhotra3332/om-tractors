@@ -13,6 +13,7 @@ import Category from "@/models/Category";
 import { postData } from "../../utils/dbFuncs";
 import { uploadFileToServer, raiseToast } from "@/utils/utilityFuncs";
 import InputContainer from "@/components/FormItems/InputContainer";
+import SuggestionInput from "@/components/FormItems/SuggestionInput";
 import { DropdownForId, Dropdown } from "@/components/FormItems/Dropdown";
 
 const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
@@ -61,7 +62,7 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
   const [partNumber, setPartNumber] = useState(decoded_partNumber ?? "");
 
   const [brand, setBrand] = useState(
-    decoded_brandName !== "" ? decoded_brandName : "Select Brand"
+    decoded_brandName !== "" ? decoded_brandName : ""
   ); // just for showCase
   const [brandId, setBrandId] = useState(decoded_brandID ?? ""); //  real data
   const [mrp, setMrp] = useState(decoded_mrp !== "null" ? decoded_mrp : "");
@@ -87,7 +88,6 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
   );
   const [code, setCode] = useState(decoded_code !== "null" ? decoded_code : "");
 
-  const [showBrands, setShowBrands] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
   const [showUnit, setShowUnit] = useState(false);
 
@@ -108,10 +108,6 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
   const toggleCategories = () => {
     setShowCategories(!showCategories);
   };
-  const toggleBrands = () => {
-    setShowBrands(!showBrands);
-  };
-
   const toggleUnits = () => {
     setShowUnit(!showUnit);
   };
@@ -203,14 +199,12 @@ const AddProduct = ({ fetchedBrands, fetchedCategories }) => {
           </div>
           {/* brand */}
           <div className="lg:col-span-1">
-            <DropdownForId
+            <SuggestionInput
               label={"Brand"}
-              toggleDropDown={toggleBrands}
               value={brand}
-              isOpen={showBrands}
-              options={fetchedBrands}
-              setOption={setBrand}
-              setOptionID={setBrandId}
+              fullWidth={true}
+              suggestions={fetchedBrands}
+              setId={setBrandId}
             />
           </div>
           <div className="lg:col-span-1">
